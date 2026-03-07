@@ -1,4 +1,4 @@
-import PlaceCard from '../../components/place-card';
+import PlaceCard from '../../components/place-card/place-card.tsx';
 
 type MainPageProps = {
   offersCount: number;
@@ -57,7 +57,7 @@ const offers = [
   },
 ];
 
-function MainPage({ offersCount }: MainPageProps): JSX.Element {
+function MainPage({offersCount}: MainPageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
