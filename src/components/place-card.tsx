@@ -20,7 +20,7 @@ function PlaceCard({
   offerType,
 }: PlaceCardProps): JSX.Element {
   return (
-    <article className={`${cardClassName} place-card`}>
+    <article className={`${cardClassName}__card place-card`}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
