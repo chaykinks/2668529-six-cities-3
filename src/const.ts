@@ -2,6 +2,12 @@ const Settings = {
   OffersCount: 312
 };
 
+enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
 const offers = [
   {
     id: 1,
@@ -55,4 +61,4 @@ const offers = [
   },
 ];
 
-export { Settings, offers };
+export { Settings, offers, AuthorizationStatus };

@@ -1,8 +1,12 @@
+import {AuthorizationStatus} from '../../const';
+
 type HeaderProps = {
-  isAuth: boolean;
+  authorizationStatus: AuthorizationStatus;
 };
 
-function Header({isAuth}: HeaderProps): JSX.Element {
+function Header({authorizationStatus}: HeaderProps): JSX.Element {
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+
   return (
     <header className="header">
       <div className="container">

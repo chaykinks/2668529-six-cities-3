@@ -1,9 +1,10 @@
 import Header from '../../components/header/header';
+import { AuthorizationStatus } from '../../const';
 
 function LoginPage(): JSX.Element {
   return (
     <div className="page page--gray page--login">
-      <Header isAuth={false} />
+      <Header authorizationStatus={AuthorizationStatus.NoAuth} />
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">
