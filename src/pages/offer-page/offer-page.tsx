@@ -3,7 +3,7 @@ import Header from '../../components/header/header';
 function OfferPage(): JSX.Element {
   return (
     <div className="page">
-      <Header isAuth={true} />
+      <Header isAuth />
 
       <main className="page__main page__main--offer">
 
@@ -93,7 +93,7 @@ function OfferPage(): JSX.Element {
 
 
               <div className="offer__inside">
-                <h2 className="offer__inside-title">What's inside</h2>
+                <h2 className="offer__inside-title">What&apos;s inside</h2>
 
                 <ul className="offer__inside-list">
 

@@ -1,6 +1,6 @@
 import PlaceCard from '../../components/place-card/place-card.tsx';
 import Header from '../../components/header/header';
-import { offers } from "../../const.ts";
+import { offers } from '../../const.ts';
 
 type MainPageProps = {
   offersCount: number;
@@ -9,7 +9,7 @@ type MainPageProps = {
 function MainPage({offersCount}: MainPageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
-      <Header isAuth={true} />
+      <Header isAuth />
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>

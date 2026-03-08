@@ -5,7 +5,7 @@ function FavoritesPage(): JSX.Element {
 
   return (
     <div className="page">
-      <Header isAuth={true} />
+      <Header isAuth />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
