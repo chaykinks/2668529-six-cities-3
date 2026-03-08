@@ -80,6 +80,7 @@ function MainPage({offersCount, authorizationStatus}: MainPageProps): JSX.Elemen
                 {offers.map((offer) => (
                   <PlaceCard
                     key={offer.id}
+                    id={offer.id}
                     cardClassName="cities"
                     isPremium={offer.isPremium}
                     imageSrc={offer.imageSrc}
