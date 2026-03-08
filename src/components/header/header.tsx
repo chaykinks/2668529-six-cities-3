@@ -1,10 +1,11 @@
-import {AuthorizationStatus} from '../../const';
+import { AuthorizationStatus } from '../../const';
 
 type HeaderProps = {
   authorizationStatus: AuthorizationStatus;
+  isLoginPage?: boolean;
 };
 
-function Header({authorizationStatus}: HeaderProps): JSX.Element {
+function Header({ authorizationStatus, isLoginPage = false }: HeaderProps): JSX.Element {
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
@@ -24,37 +25,39 @@ function Header({authorizationStatus}: HeaderProps): JSX.Element {
             </a>
           </div>
 
-          <nav className="header__nav">
-            <ul className="header__nav-list">
+          {!isLoginPage && (
+            <nav className="header__nav">
+              <ul className="header__nav-list">
 
-              {isAuth ? (
-                <>
+                {isAuth ? (
+                  <>
+                    <li className="header__nav-item user">
+                      <a className="header__nav-link header__nav-link--profile" href="#">
+                        <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                        <span className="header__user-name user__name">
+                          Oliver.conner@gmail.com
+                        </span>
+                        <span className="header__favorite-count">3</span>
+                      </a>
+                    </li>
+
+                    <li className="header__nav-item">
+                      <a className="header__nav-link" href="#">
+                        <span className="header__signout">Sign out</span>
+                      </a>
+                    </li>
+                  </>
+                ) : (
                   <li className="header__nav-item user">
                     <a className="header__nav-link header__nav-link--profile" href="#">
-                      <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                      <span className="header__user-name user__name">
-                        Oliver.conner@gmail.com
-                      </span>
-                      <span className="header__favorite-count">3</span>
+                      <span className="header__login">Sign in</span>
                     </a>
                   </li>
+                )}
 
-                  <li className="header__nav-item">
-                    <a className="header__nav-link" href="#">
-                      <span className="header__signout">Sign out</span>
-                    </a>
-                  </li>
-                </>
-              ) : (
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <span className="header__login">Sign in</span>
-                  </a>
-                </li>
-              )}
-
-            </ul>
-          </nav>
+              </ul>
+            </nav>
+          )}
 
         </div>
       </div>

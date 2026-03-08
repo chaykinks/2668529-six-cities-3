@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainPage from '../../pages/main-page/main-page.tsx';
 import LoginPage from '../../pages/login-page/login-page';
 import FavoritesPage from '../../pages/favourites-page/favourites-page';
@@ -15,6 +15,7 @@ type AppProps = {
 function App({offersCount, authorizationStatus}: AppProps): JSX.Element {
 
   return (
+    <BrowserRouter>
     <Routes>
       <Route
         path="/"
@@ -46,6 +47,7 @@ function App({offersCount, authorizationStatus}: AppProps): JSX.Element {
         element={<NotFoundPage />}
       />
     </Routes>
+    </BrowserRouter>
   );
 }
 
