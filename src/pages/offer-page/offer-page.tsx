@@ -1,11 +1,6 @@
-import Header from '../../components/header/header';
-import { AuthorizationStatus } from '../../const';
-
 function OfferPage(): JSX.Element {
   return (
     <div className="page">
-      <Header authorizationStatus={AuthorizationStatus.Auth} />
-
       <main className="page__main page__main--offer">
 
         <section className="offer">

@@ -5,6 +5,8 @@ import FavoritesPage from '../../pages/favourites-page/favourites-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
+import MainLayout from '../main-layout/main-layout';
+import LoginLayout from '../login-layout/login-layout';
 import {AuthorizationStatus} from '../../const';
 
 type AppProps = {
@@ -16,37 +18,38 @@ function App({offersCount, authorizationStatus}: AppProps): JSX.Element {
 
   return (
     <BrowserRouter>
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <MainPage
-            offersCount={offersCount}
-            authorizationStatus={authorizationStatus}
+      <Routes>
+        <Route element={<MainLayout authorizationStatus={authorizationStatus} />}>
+          <Route
+            path="/"
+            element={<MainPage offersCount={offersCount} />}
           />
-        }
-      />
-      <Route
-        path="/login"
-        element={<LoginPage />}
-      />
-      <Route
-        path="/favorites"
-        element={
-          <PrivateRoute authorizationStatus={authorizationStatus}>
-            <FavoritesPage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/offer/:id"
-        element={<OfferPage />}
-      />
-      <Route
-        path="*"
-        element={<NotFoundPage />}
-      />
-    </Routes>
+          <Route
+            path="/offer/:id"
+            element={<OfferPage />}
+          />
+          <Route
+            path="/favorites"
+            element={(
+              <PrivateRoute authorizationStatus={authorizationStatus}>
+                <FavoritesPage />
+              </PrivateRoute>
+            )}
+          />
+        </Route>
+
+        <Route element={<LoginLayout />}>
+          <Route
+            path="/login"
+            element={<LoginPage />}
+          />
+        </Route>
+
+        <Route
+          path="*"
+          element={<NotFoundPage />}
+        />
+      </Routes>
     </BrowserRouter>
   );
 }
