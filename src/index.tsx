@@ -9,9 +9,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-      <App
-        offersCount={Settings.OffersCount}
-        authorizationStatus={AuthorizationStatus.Auth}
-      />
+    <App
+      offersCount={Settings.OffersCount}
+      authorizationStatus={AuthorizationStatus.Auth}
+    />
   </React.StrictMode>
 );

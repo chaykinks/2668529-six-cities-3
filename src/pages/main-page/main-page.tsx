@@ -1,5 +1,5 @@
 import PlaceCard from '../../components/place-card/place-card.tsx';
-import { offers } from "../../mocks.ts";
+import { offers } from '../../mocks.ts';
 
 type MainPageProps = {
   offersCount: number;
