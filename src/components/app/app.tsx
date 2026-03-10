@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import MainPage from '../../pages/main-page/main-page.tsx';
 import LoginPage from '../../pages/login-page/login-page';
 import FavoritesPage from '../../pages/favourites-page/favourites-page';
@@ -20,31 +20,35 @@ function App({offersCount, authorizationStatus}: AppProps): JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Root}
-          element={<Layout authorizationStatus={authorizationStatus} />}
+          element={<Layout authorizationStatus={authorizationStatus}/>}
         >
           <Route
             index
-            element={<MainPage offersCount={offersCount} />}
+            element={<MainPage offersCount={offersCount}/>}
           />
           <Route
             path={AppRoute.Login}
-            element={<LoginPage />}
+            element={(
+              <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
+                <LoginPage/>
+              </PrivateRoute>
+            )}
           />
           <Route
             path={AppRoute.Offer}
-            element={<OfferPage />}
+            element={<OfferPage/>}
           />
           <Route
             path={AppRoute.Favorites}
             element={(
               <PrivateRoute authorizationStatus={authorizationStatus}>
-                <FavoritesPage />
+                <FavoritesPage/>
               </PrivateRoute>
             )}
           />
           <Route
             path={AppRoute.NotFound}
-            element={<NotFoundPage />}
+            element={<NotFoundPage/>}
           />
         </Route>
       </Routes>

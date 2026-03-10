@@ -1,17 +1,17 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import {Outlet, useLocation} from 'react-router-dom';
 import Header from '../header/header';
 import Footer from '../footer/footer';
-import { AuthorizationStatus } from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 
 type LayoutProps = {
   authorizationStatus: AuthorizationStatus;
 };
 
-function Layout({ authorizationStatus }: LayoutProps): JSX.Element {
-  const { pathname } = useLocation();
+function Layout({authorizationStatus}: LayoutProps): JSX.Element {
+  const {pathname} = useLocation();
 
-  const isLoginPage = pathname === '/login';
-  const isFavoritesPage = pathname === '/favorites';
+  const isLoginPage = pathname === AppRoute.Login;
+  const isFavoritesPage = pathname === AppRoute.Favorites;
 
   return (
     <>
@@ -19,8 +19,8 @@ function Layout({ authorizationStatus }: LayoutProps): JSX.Element {
         authorizationStatus={authorizationStatus}
         isLoginPage={isLoginPage}
       />
-      <Outlet />
-      {isFavoritesPage && <Footer />}
+      <Outlet/>
+      {isFavoritesPage && <Footer/>}
     </>
   );
 }

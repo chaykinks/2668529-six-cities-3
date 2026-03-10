@@ -15,4 +15,4 @@ enum AppRoute {
   NotFound = '*'
 }
 
-export { Settings, AuthorizationStatus, AppRoute };
+export {Settings, AuthorizationStatus, AppRoute};

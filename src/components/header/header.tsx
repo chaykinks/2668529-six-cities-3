@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom';
-import { AuthorizationStatus } from '../../const';
+import {Link} from 'react-router-dom';
+import {AppRoute, AuthorizationStatus} from '../../const';
 
 type HeaderProps = {
   authorizationStatus: AuthorizationStatus;
   isLoginPage?: boolean;
 };
 
-function Header({ authorizationStatus, isLoginPage = false }: HeaderProps): JSX.Element {
+function Header({authorizationStatus, isLoginPage = false}: HeaderProps): JSX.Element {
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
@@ -14,7 +14,7 @@ function Header({ authorizationStatus, isLoginPage = false }: HeaderProps): JSX.
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Link className="header__logo-link header__logo-link--active" to="/">
+            <Link className="header__logo-link header__logo-link--active" to={AppRoute.Root}>
               <img
                 className="header__logo"
                 src="img/logo.svg"
@@ -32,8 +32,8 @@ function Header({ authorizationStatus, isLoginPage = false }: HeaderProps): JSX.
                 {isAuth ? (
                   <>
                     <li className="header__nav-item user">
-                      <Link className="header__nav-link header__nav-link--profile" to="/favorites">
-                        <div className="header__avatar-wrapper user__avatar-wrapper" />
+                      <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
+                        <div className="header__avatar-wrapper user__avatar-wrapper"/>
                         <span className="header__user-name user__name">
                           Oliver.conner@gmail.com
                         </span>
@@ -42,14 +42,14 @@ function Header({ authorizationStatus, isLoginPage = false }: HeaderProps): JSX.
                     </li>
 
                     <li className="header__nav-item">
-                      <Link className="header__nav-link" to="/">
+                      <Link className="header__nav-link" to={AppRoute.Root}>
                         <span className="header__signout">Sign out</span>
                       </Link>
                     </li>
                   </>
                 ) : (
                   <li className="header__nav-item user">
-                    <Link className="header__nav-link header__nav-link--profile" to="/login">
+                    <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Login}>
                       <span className="header__login">Sign in</span>
                     </Link>
                   </li>

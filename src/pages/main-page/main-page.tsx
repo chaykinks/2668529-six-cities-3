@@ -1,5 +1,5 @@
 import PlaceCard from '../../components/place-card/place-card.tsx';
-import { offers } from '../../mocks.ts';
+import {offers} from '../../mocks.ts';
 
 type MainPageProps = {
   offersCount: number;
@@ -60,7 +60,7 @@ function MainPage({offersCount}: MainPageProps): JSX.Element {
                 <span className="places__sorting-type" tabIndex={0}>
                   Popular
                   <svg className="places__sorting-arrow" width={7} height={4}>
-                    <use xlinkHref="#icon-arrow-select" />
+                    <use xlinkHref="#icon-arrow-select"/>
                   </svg>
                 </span>
 
@@ -91,7 +91,7 @@ function MainPage({offersCount}: MainPageProps): JSX.Element {
             </section>
 
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <section className="cities__map map"/>
             </div>
           </div>
         </div>
