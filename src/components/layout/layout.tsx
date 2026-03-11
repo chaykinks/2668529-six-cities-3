@@ -1,7 +1,7 @@
 import {Outlet, useLocation} from 'react-router-dom';
 import Header from '../header/header';
 import Footer from '../footer/footer';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AuthorizationStatus, AppRoute} from '../../const';
 
 type LayoutProps = {
   authorizationStatus: AuthorizationStatus;
@@ -12,16 +12,27 @@ function Layout({authorizationStatus}: LayoutProps): JSX.Element {
 
   const isLoginPage = pathname === AppRoute.Login;
   const isFavoritesPage = pathname === AppRoute.Favorites;
+  const isMainPage = pathname === AppRoute.Root;
+
+  let pageClassName = 'page';
+
+  if (isMainPage) {
+    pageClassName = 'page page--gray page--main';
+  }
+
+  if (isLoginPage) {
+    pageClassName = 'page page--gray page--login';
+  }
 
   return (
-    <>
+    <div className={pageClassName}>
       <Header
         authorizationStatus={authorizationStatus}
         isLoginPage={isLoginPage}
       />
-      <Outlet/>
-      {isFavoritesPage && <Footer/>}
-    </>
+      <Outlet />
+      {isFavoritesPage && <Footer />}
+    </div>
   );
 }
 
