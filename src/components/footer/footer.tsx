@@ -1,7 +1,10 @@
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const';
+
 function Footer(): JSX.Element {
   return (
     <footer className="footer container">
-      <a className="footer__logo-link" href="/">
+      <Link className="footer__logo-link" to={AppRoute.Root}>
         <img
           className="footer__logo"
           src="img/logo.svg"
@@ -9,7 +12,7 @@ function Footer(): JSX.Element {
           width="64"
           height="33"
         />
-      </a>
+      </Link>
     </footer>
   );
 }

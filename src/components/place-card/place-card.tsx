@@ -1,4 +1,7 @@
+import { Link } from 'react-router-dom';
+
 type PlaceCardProps = {
+  id: number;
   cardClassName: string;
   isPremium?: boolean;
   imageSrc: string;
@@ -10,6 +13,7 @@ type PlaceCardProps = {
 };
 
 function PlaceCard({
+  id,
   cardClassName,
   isPremium = false,
   imageSrc,
@@ -28,7 +32,7 @@ function PlaceCard({
       )}
 
       <div className={`${cardClassName}__image-wrapper place-card__image-wrapper`}>
-        <a href="#">
+        <Link to={`/offer/${id}`}>
           <img
             className="place-card__image"
             src={imageSrc}
@@ -36,7 +40,7 @@ function PlaceCard({
             height={200}
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
 
       <div className="place-card__info">
@@ -69,7 +73,7 @@ function PlaceCard({
         </div>
 
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
 
         <p className="place-card__type">{offerType}</p>
