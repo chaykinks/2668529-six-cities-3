@@ -10,9 +10,9 @@ type LayoutProps = {
 function Layout({authorizationStatus}: LayoutProps): JSX.Element {
   const {pathname} = useLocation();
 
-  const isLoginPage = pathname === AppRoute.Login;
-  const isFavoritesPage = pathname === AppRoute.Favorites;
-  const isMainPage = pathname === AppRoute.Root;
+  const isLoginPage = pathname === AppRoute.Login.toString();
+  const isFavoritesPage = pathname === AppRoute.Favorites.toString();
+  const isMainPage = pathname === AppRoute.Root.toString();
 
   let pageClassName = 'page';
 

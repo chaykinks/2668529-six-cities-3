@@ -7,12 +7,12 @@ enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
 }
 
-const AppRoute = {
-  Root: '/',
-  Login: '/login',
-  Favorites: '/favorites',
-  Offer: '/offer/:id',
-  NotFound: '*'
-} as const;
+enum AppRoute {
+  Root = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer/:id',
+  NotFound = '*'
+}
 
 export {Settings, AuthorizationStatus, AppRoute};
