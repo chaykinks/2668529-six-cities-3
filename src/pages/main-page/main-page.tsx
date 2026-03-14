@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import OffersList from '../../components/offers-list/offers-list';
 import {Offer} from '../../types/offer';
 
@@ -6,6 +7,8 @@ type MainPageProps = {
 };
 
 function MainPage({offers}: MainPageProps): JSX.Element {
+  const [activeOfferId, setActiveOfferId] = useState<number | null>(null);
+
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -78,7 +81,11 @@ function MainPage({offers}: MainPageProps): JSX.Element {
             </form>
 
             <div className="cities__places-list places__list tabs__content">
-              <OffersList offers={offers} cardClassName="cities" />
+              <OffersList
+                offers={offers}
+                cardClassName="cities"
+                onCardHover={setActiveOfferId}
+              />
             </div>
           </section>
 
@@ -86,6 +93,10 @@ function MainPage({offers}: MainPageProps): JSX.Element {
             <section className="cities__map map" />
           </div>
         </div>
+      </div>
+
+      <div className="visually-hidden">
+        Active offer id: {activeOfferId ?? 'none'}
       </div>
     </main>
   );
