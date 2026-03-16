@@ -4,6 +4,7 @@ type Offer = {
   type: string;
   price: number;
   previewImage: string;
+  images: string[];
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;

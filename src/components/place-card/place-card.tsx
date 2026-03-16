@@ -10,6 +10,7 @@ type PlaceCardProps = {
 
 function PlaceCard({offer, cardClassName, onHover}: PlaceCardProps): JSX.Element {
   const {id, title, type, price, previewImage, isPremium, isFavorite, rating} = offer;
+  const offerPath = generatePath(AppRoute.Offer, {id: String(id)});
 
   return (
     <article
@@ -24,7 +25,7 @@ function PlaceCard({offer, cardClassName, onHover}: PlaceCardProps): JSX.Element
       )}
 
       <div className={`${cardClassName}__image-wrapper place-card__image-wrapper`}>
-        <Link to={generatePath(AppRoute.Offer, {id: String(id)})}>
+        <Link to={offerPath}>
           <img
             className="place-card__image"
             src={previewImage}
@@ -65,9 +66,7 @@ function PlaceCard({offer, cardClassName, onHover}: PlaceCardProps): JSX.Element
         </div>
 
         <h2 className="place-card__name">
-          <Link to={generatePath(AppRoute.Offer, {id: String(id)})}>
-            {title}
-          </Link>
+          <Link to={offerPath}>{title}</Link>
         </h2>
 
         <p className="place-card__type">{type}</p>
