@@ -1,19 +1,23 @@
 import {useParams} from 'react-router-dom';
 import ReviewForm from '../../components/review-form/review-form';
 import {Offer} from '../../types/offer';
+import {AuthorizationStatus} from '../../const';
 import NotFoundPage from '../not-found-page/not-found-page';
 
 type OfferPageProps = {
   offers: Offer[];
+  authorizationStatus: AuthorizationStatus;
 };
 
-function OfferPage({offers}: OfferPageProps): JSX.Element {
+function OfferPage({offers, authorizationStatus}: OfferPageProps): JSX.Element {
   const {id} = useParams();
   const offer = offers.find((item) => item.id === Number(id));
 
   if (!offer) {
     return <NotFoundPage />;
   }
+
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
     <main className="page__main page__main--offer">
@@ -158,7 +162,7 @@ function OfferPage({offers}: OfferPageProps): JSX.Element {
                 </li>
               </ul>
 
-              <ReviewForm />
+              {isAuth && <ReviewForm />}
             </section>
           </div>
         </div>

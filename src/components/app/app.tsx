@@ -37,7 +37,12 @@ function App({offers, authorizationStatus}: AppProps): JSX.Element {
           />
           <Route
             path={AppRoute.Offer}
-            element={<OfferPage offers={offers} />}
+            element={(
+              <OfferPage
+                offers={offers}
+                authorizationStatus={authorizationStatus}
+              />
+            )}
           />
           <Route
             path={AppRoute.Favorites}
