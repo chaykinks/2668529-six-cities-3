@@ -19,13 +19,8 @@ function ReviewForm(): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    /*const formData = {
-      review,
-      rating,
-    };
-    console.log(formData);
     setReview('');
-    setRating(0);*/
+    setRating(0);
   };
 
   return (

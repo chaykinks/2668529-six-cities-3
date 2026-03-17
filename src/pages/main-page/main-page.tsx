@@ -33,7 +33,7 @@ function MainPage({offers}: MainPageProps): JSX.Element {
               </a>
             </li>
             <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#todo">
+              <a className="locations__item-link tabs__item tabs__item--active" href="#todo">
                 <span>Amsterdam</span>
               </a>
             </li>
@@ -43,7 +43,7 @@ function MainPage({offers}: MainPageProps): JSX.Element {
               </a>
             </li>
             <li className="locations__item">
-              <a className="locations__item-link tabs__item tabs__item--active" href="#todo">
+              <a className="locations__item-link tabs__item" href="#todo">
                 <span>Dusseldorf</span>
               </a>
             </li>
