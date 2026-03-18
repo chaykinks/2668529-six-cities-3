@@ -6,17 +6,20 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout.tsx';
+import ScrollToTop from '../../components/scroll-to-top/scroll-to-top';
 import {AuthorizationStatus, AppRoute} from '../../const';
+import {Offer} from '../../types/offer';
 
 type AppProps = {
-  offersCount: number;
+  offers: Offer[];
   authorizationStatus: AuthorizationStatus;
 };
 
-function App({offersCount, authorizationStatus}: AppProps): JSX.Element {
+function App({offers, authorizationStatus}: AppProps): JSX.Element {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route
           path={AppRoute.Root}
@@ -24,7 +27,7 @@ function App({offersCount, authorizationStatus}: AppProps): JSX.Element {
         >
           <Route
             index
-            element={<MainPage offersCount={offersCount}/>}
+            element={<MainPage offers={offers} />}
           />
           <Route
             path={AppRoute.Login}
@@ -36,13 +39,18 @@ function App({offersCount, authorizationStatus}: AppProps): JSX.Element {
           />
           <Route
             path={AppRoute.Offer}
-            element={<OfferPage/>}
+            element={(
+              <OfferPage
+                offers={offers}
+                authorizationStatus={authorizationStatus}
+              />
+            )}
           />
           <Route
             path={AppRoute.Favorites}
             element={(
               <PrivateRoute authorizationStatus={authorizationStatus}>
-                <FavoritesPage/>
+                <FavoritesPage offers={offers} />
               </PrivateRoute>
             )}
           />

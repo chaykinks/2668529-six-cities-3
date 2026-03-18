@@ -1,18 +1,14 @@
-const Settings = {
-  OffersCount: 312
-};
-
 enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
 }
 
-const AppRoute = {
-  Root: '/',
-  Login: '/login',
-  Favorites: '/favorites',
-  Offer: '/offer/:id',
-  NotFound: '*'
-} as const;
+enum AppRoute {
+  Root = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer/:id',
+  NotFound = '*'
+}
 
-export {Settings, AuthorizationStatus, AppRoute};
+export {AuthorizationStatus, AppRoute};
