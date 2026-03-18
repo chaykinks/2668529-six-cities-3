@@ -8,6 +8,11 @@ type Offer = {
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;
+  host: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
 };
 
 export type {Offer};

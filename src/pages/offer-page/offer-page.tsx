@@ -63,7 +63,7 @@ function OfferPage({offers, authorizationStatus}: OfferPageProps): JSX.Element {
                 <span className="visually-hidden">Rating</span>
               </div>
 
-              <span className="offer__rating-value rating__value">{offer.rating}.0</span>
+              <span className="offer__rating-value rating__value">{offer.rating.toFixed(1)}</span>
             </div>
 
             <ul className="offer__features">
@@ -104,18 +104,25 @@ function OfferPage({offers, authorizationStatus}: OfferPageProps): JSX.Element {
               <h2 className="offer__host-title">Meet the host</h2>
 
               <div className="offer__host-user user">
-                <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                <div
+                  className={`offer__avatar-wrapper user__avatar-wrapper ${
+                    offer.host.isPro ? 'offer__avatar-wrapper--pro' : ''
+                  }`}
+                >
                   <img
                     className="offer__avatar user__avatar"
-                    src="img/avatar-angelina.jpg"
+                    src={offer.host.avatarUrl}
                     width="74"
                     height="74"
                     alt="Host avatar"
                   />
                 </div>
 
-                <span className="offer__user-name">Angelina</span>
-                <span className="offer__user-status">Pro</span>
+                <span className="offer__user-name">{offer.host.name}</span>
+
+                {offer.host.isPro && (
+                  <span className="offer__user-status">Pro</span>
+                )}
               </div>
 
               <div className="offer__description">

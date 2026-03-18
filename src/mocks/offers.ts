@@ -1,4 +1,6 @@
-export const offers = [
+import {Offer} from '../types/offer';
+
+const offers: Offer[] = [
   {
     id: 1,
     title: 'Beautiful & luxurious apartment at great location',
@@ -15,7 +17,12 @@ export const offers = [
     ],
     isPremium: true,
     isFavorite: false,
-    rating: 4,
+    rating: 4.5,
+    host: {
+      name: 'Angelina',
+      avatarUrl: 'img/avatar-angelina.jpg',
+      isPro: true,
+    },
   },
   {
     id: 2,
@@ -34,6 +41,11 @@ export const offers = [
     isPremium: false,
     isFavorite: true,
     rating: 4,
+    host: {
+      name: 'Max',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: false,
+    },
   },
   {
     id: 3,
@@ -51,7 +63,12 @@ export const offers = [
     ],
     isPremium: false,
     isFavorite: false,
-    rating: 4,
+    rating: 4.2,
+    host: {
+      name: 'Nick',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: true,
+    },
   },
   {
     id: 4,
@@ -70,6 +87,11 @@ export const offers = [
     isPremium: true,
     isFavorite: true,
     rating: 5,
+    host: {
+      name: 'Clara',
+      avatarUrl: 'img/avatar-angelina.jpg',
+      isPro: false,
+    },
   },
   {
     id: 5,
@@ -86,7 +108,14 @@ export const offers = [
       'img/apartment-small-04.jpg',
     ],
     isPremium: true,
-    isFavorite: true,
-    rating: 3,
-  }
+    isFavorite: false,
+    rating: 4.8,
+    host: {
+      name: 'Oliver',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: true,
+    },
+  },
 ];
+
+export {offers};
