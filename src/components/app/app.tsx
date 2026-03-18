@@ -6,6 +6,7 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout.tsx';
+import ScrollToTop from '../../components/scroll-to-top/scroll-to-top';
 import {AuthorizationStatus, AppRoute} from '../../const';
 import {Offer} from '../../types/offer';
 
@@ -18,6 +19,7 @@ function App({offers, authorizationStatus}: AppProps): JSX.Element {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route
           path={AppRoute.Root}
