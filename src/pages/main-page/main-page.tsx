@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import OffersList from '../../components/offers-list/offers-list';
+import Map from '../../components/map/map';
 import {Offer} from '../../types/offer';
 
 type MainPageProps = {
@@ -110,15 +111,15 @@ function MainPage({offers}: MainPageProps): JSX.Element {
               </section>
 
               <div className="cities__right-section">
-                <section className="cities__map map" />
+                <Map
+                  offers={offers}
+                  activeOfferId={activeOfferId}
+                  mapClassName="cities__map map"
+                />
               </div>
             </>
           )}
         </div>
-      </div>
-
-      <div className="visually-hidden">
-        Active offer id: {activeOfferId ?? 'none'}
       </div>
     </main>
   );

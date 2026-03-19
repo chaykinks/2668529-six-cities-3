@@ -23,7 +23,7 @@ const offers: Offer[] = [
       avatarUrl: 'img/avatar-angelina.jpg',
       isPro: true,
     },
-    services: [
+    goods: [
       'Wi-Fi',
       'Washing machine',
       'Towels',
@@ -37,6 +37,11 @@ const offers: Offer[] = [
     ],
     bedrooms: 3,
     maxAdults: 2,
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 11,
+    },
   },
   {
     id: 2,
@@ -60,7 +65,7 @@ const offers: Offer[] = [
       avatarUrl: 'img/avatar-max.jpg',
       isPro: false,
     },
-    services: [
+    goods: [
       'Wi-Fi',
       'Washing machine',
       'Towels',
@@ -72,6 +77,11 @@ const offers: Offer[] = [
     ],
     bedrooms: 1,
     maxAdults: 1,
+    location: {
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
+      zoom: 11,
+    },
   },
   {
     id: 3,
@@ -95,7 +105,7 @@ const offers: Offer[] = [
       avatarUrl: 'img/avatar-max.jpg',
       isPro: true,
     },
-    services: [
+    goods: [
       'Wi-Fi',
       'Washing machine',
       'Heating',
@@ -106,6 +116,11 @@ const offers: Offer[] = [
     ],
     bedrooms: 2,
     maxAdults: 1,
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
+      zoom: 11,
+    },
   },
   {
     id: 4,
@@ -123,13 +138,13 @@ const offers: Offer[] = [
     ],
     isPremium: true,
     isFavorite: true,
-    rating: 5,
+    rating: 3.6,
     host: {
       name: 'Clara',
       avatarUrl: 'img/avatar-angelina.jpg',
       isPro: false,
     },
-    services: [
+    goods: [
       'Wi-Fi',
       'Towels',
       'Coffee machine',
@@ -140,40 +155,11 @@ const offers: Offer[] = [
     ],
     bedrooms: 3,
     maxAdults: 4,
-  },
-  {
-    id: 5,
-    title: 'Loft Studio in the City Center',
-    type: 'Apartment',
-    price: 210,
-    previewImage: 'img/apartment-01.jpg',
-    images: [
-      'img/studio-01.jpg',
-      'img/apartment-01.jpg',
-      'img/apartment-02.jpg',
-      'img/apartment-03.jpg',
-      'img/room.jpg',
-      'img/apartment-small-04.jpg',
-    ],
-    isPremium: true,
-    isFavorite: false,
-    rating: 4.8,
-    host: {
-      name: 'Oliver',
-      avatarUrl: 'img/avatar-max.jpg',
-      isPro: true,
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 11,
     },
-    services: [
-      'Wi-Fi',
-      'Towels',
-      'Coffee machine',
-      'Baby seat',
-      'Kitchen',
-      'Dishwasher',
-      'Fridge',
-    ],
-    bedrooms: 2,
-    maxAdults: 5,
   },
 ];
 
