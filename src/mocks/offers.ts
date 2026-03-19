@@ -40,7 +40,7 @@ const offers: Offer[] = [
     location: {
       latitude: 52.3909553943508,
       longitude: 4.85309666406198,
-      zoom: 8,
+      zoom: 11,
     },
   },
   {
@@ -80,7 +80,7 @@ const offers: Offer[] = [
     location: {
       latitude: 52.3609553943508,
       longitude: 4.85309666406198,
-      zoom: 8,
+      zoom: 11,
     },
   },
   {
@@ -119,7 +119,7 @@ const offers: Offer[] = [
     location: {
       latitude: 52.3909553943508,
       longitude: 4.929309666406198,
-      zoom: 8,
+      zoom: 11,
     },
   },
   {
@@ -138,7 +138,7 @@ const offers: Offer[] = [
     ],
     isPremium: true,
     isFavorite: true,
-    rating: 5,
+    rating: 3.6,
     host: {
       name: 'Clara',
       avatarUrl: 'img/avatar-angelina.jpg',
@@ -158,7 +158,7 @@ const offers: Offer[] = [
     location: {
       latitude: 52.3809553943508,
       longitude: 4.939309666406198,
-      zoom: 8,
+      zoom: 11,
     },
   },
 ];
