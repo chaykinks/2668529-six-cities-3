@@ -91,9 +91,9 @@ function OfferPage({offers, authorizationStatus}: OfferPageProps): JSX.Element {
             <div className="offer__inside">
               <h2 className="offer__inside-title">What&apos;s inside</h2>
               <ul className="offer__inside-list">
-                {currentOffer.services.map((service) => (
-                  <li key={service} className="offer__inside-item">
-                    {service}
+                {currentOffer.goods.map((good) => (
+                  <li key={good} className="offer__inside-item">
+                    {good}
                   </li>
                 ))}
               </ul>
