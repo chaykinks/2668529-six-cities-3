@@ -114,15 +114,12 @@ function MainPage({offers}: MainPageProps): JSX.Element {
                 <Map
                   offers={offers}
                   activeOfferId={activeOfferId}
+                  mapClassName="cities__map map"
                 />
               </div>
             </>
           )}
         </div>
-      </div>
-
-      <div className="visually-hidden">
-        Active offer id: {activeOfferId ?? 'none'}
       </div>
     </main>
   );

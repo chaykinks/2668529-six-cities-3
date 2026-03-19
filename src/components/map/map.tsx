@@ -6,6 +6,7 @@ import {Offer} from '../../types/offer';
 type MapProps = {
   offers: Offer[];
   activeOfferId: number | null;
+  mapClassName: string;
 };
 
 const defaultIcon = new Icon({
@@ -20,7 +21,7 @@ const activeIcon = new Icon({
   iconAnchor: [13, 39],
 });
 
-function Map({offers, activeOfferId}: MapProps): JSX.Element {
+function Map({offers, activeOfferId, mapClassName}: MapProps): JSX.Element {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<leaflet.Map | null>(null);
   const markersLayer = useRef<leaflet.LayerGroup | null>(null);
@@ -65,7 +66,13 @@ function Map({offers, activeOfferId}: MapProps): JSX.Element {
     });
   }, [offers, activeOfferId]);
 
-  return <section className="cities__map map" ref={mapRef} />;
+  return (
+    <section
+      className={mapClassName}
+      ref={mapRef}
+      style={{maxWidth: '1144px', marginLeft: 'auto', marginRight: 'auto'}}
+    />
+  );
 }
 
 export default Map;

@@ -4,6 +4,7 @@ import {Offer} from '../../types/offer';
 import {AuthorizationStatus} from '../../const';
 import NotFoundPage from '../not-found-page/not-found-page';
 import PlaceCard from '../../components/place-card/place-card';
+import Map from '../../components/map/map';
 
 type OfferPageProps = {
   offers: Offer[];
@@ -20,6 +21,7 @@ function OfferPage({offers, authorizationStatus}: OfferPageProps): JSX.Element {
   }
 
   const nearbyOffers = offers.filter((item) => item.id !== currentOffer.id).slice(0, 3);
+  const mapOffers = [currentOffer, ...nearbyOffers];
 
   return (
     <main className="page__main page__main--offer">
@@ -179,7 +181,11 @@ function OfferPage({offers, authorizationStatus}: OfferPageProps): JSX.Element {
           </div>
         </div>
 
-        <section className="offer__map map"/>
+        <Map
+          offers={mapOffers}
+          activeOfferId={currentOffer.id}
+          mapClassName="offer__map map"
+        />
       </section>
 
       <div className="container">
