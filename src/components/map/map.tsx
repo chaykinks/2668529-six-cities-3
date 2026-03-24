@@ -11,14 +11,14 @@ type MapProps = {
 
 const defaultIcon = new Icon({
   iconUrl: 'img/pin.svg',
-  iconSize: [27, 39],
-  iconAnchor: [13, 39],
+  iconSize: [28, 40],
+  iconAnchor: [14, 40],
 });
 
 const activeIcon = new Icon({
   iconUrl: 'img/pin-active.svg',
-  iconSize: [27, 39],
-  iconAnchor: [13, 39],
+  iconSize: [28, 40],
+  iconAnchor: [14, 40],
 });
 
 function Map({offers, activeOfferId, mapClassName}: MapProps): JSX.Element {
