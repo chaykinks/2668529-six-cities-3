@@ -18,6 +18,14 @@ const offers: Offer[] = [
     isPremium: true,
     isFavorite: false,
     rating: 4.5,
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 11,
+      },
+    },
     host: {
       name: 'Angelina',
       avatarUrl: 'img/avatar-angelina.jpg',
@@ -60,6 +68,14 @@ const offers: Offer[] = [
     isPremium: false,
     isFavorite: true,
     rating: 4,
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 11,
+      },
+    },
     host: {
       name: 'Max',
       avatarUrl: 'img/avatar-max.jpg',
@@ -100,6 +116,14 @@ const offers: Offer[] = [
     isPremium: false,
     isFavorite: false,
     rating: 4.2,
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 11,
+      },
+    },
     host: {
       name: 'Nick',
       avatarUrl: 'img/avatar-max.jpg',
@@ -139,6 +163,14 @@ const offers: Offer[] = [
     isPremium: true,
     isFavorite: true,
     rating: 3.6,
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 11,
+      },
+    },
     host: {
       name: 'Clara',
       avatarUrl: 'img/avatar-angelina.jpg',
@@ -161,6 +193,77 @@ const offers: Offer[] = [
       zoom: 11,
     },
   },
+  {
+    id: 5,
+    title: 'Cozy studio in the heart of Paris',
+    type: 'Apartment',
+    price: 180,
+    previewImage: 'img/apartment-02.jpg',
+    images: [
+      'img/apartment-01.jpg',
+      'img/apartment-02.jpg',
+      'img/apartment-03.jpg',
+    ],
+    isPremium: false,
+    isFavorite: false,
+    rating: 4.2,
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.8566,
+        longitude: 2.3522,
+        zoom: 11,
+      },
+    },
+    host: {
+      name: 'Sophie',
+      avatarUrl: 'img/avatar-angelina.jpg',
+      isPro: false,
+    },
+    goods: ['Wi-Fi', 'Kitchen', 'Heating'],
+    bedrooms: 1,
+    maxAdults: 2,
+    location: {
+      latitude: 48.8584,
+      longitude: 2.2945,
+      zoom: 11,
+    },
+  },
+  {
+    id: 6,
+    title: 'Modern apartment near Eiffel Tower',
+    type: 'Apartment',
+    price: 250,
+    previewImage: 'img/apartment-03.jpg',
+    images: [
+      'img/apartment-03.jpg',
+      'img/apartment-02.jpg',
+    ],
+    isPremium: true,
+    isFavorite: true,
+    rating: 4.8,
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.8566,
+        longitude: 2.3522,
+        zoom: 11,
+      },
+    },
+    host: {
+      name: 'Pierre',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: true,
+    },
+    goods: ['Wi-Fi', 'Air conditioning', 'Washing machine'],
+    bedrooms: 2,
+    maxAdults: 4,
+    location: {
+      latitude: 48.8606,
+      longitude: 2.3376,
+      zoom: 11,
+    },
+  }
 ];
 
 export {offers};

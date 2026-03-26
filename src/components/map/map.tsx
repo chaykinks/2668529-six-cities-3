@@ -21,21 +21,17 @@ const activeIcon = new Icon({
   iconAnchor: [14, 40],
 });
 
-function Map({offers, activeOfferId, mapClassName}: MapProps): JSX.Element {
+function Map({ offers, activeOfferId, mapClassName }: MapProps): JSX.Element {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<leaflet.Map | null>(null);
   const markersLayer = useRef<leaflet.LayerGroup | null>(null);
 
   useEffect(() => {
-    if (!mapRef.current || offers.length === 0 || mapInstance.current) {
+    if (!mapRef.current || mapInstance.current) {
       return;
     }
 
-    const firstOffer = offers[0];
-
-    const map = leaflet.map(mapRef.current).setView(
-      [firstOffer.location.latitude, firstOffer.location.longitude], firstOffer.location.zoom
-    );
+    const map = leaflet.map(mapRef.current);
 
     leaflet
       .tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -45,6 +41,19 @@ function Map({offers, activeOfferId, mapClassName}: MapProps): JSX.Element {
 
     mapInstance.current = map;
     markersLayer.current = leaflet.layerGroup().addTo(map);
+  }, []);
+
+  useEffect(() => {
+    if (!mapInstance.current || offers.length === 0) {
+      return;
+    }
+
+    const firstOffer = offers[0];
+
+    mapInstance.current.setView(
+      [firstOffer.location.latitude, firstOffer.location.longitude],
+      firstOffer.location.zoom
+    );
   }, [offers]);
 
   useEffect(() => {
@@ -70,7 +79,7 @@ function Map({offers, activeOfferId, mapClassName}: MapProps): JSX.Element {
     <section
       className={mapClassName}
       ref={mapRef}
-      style={{maxWidth: '1144px', marginLeft: 'auto', marginRight: 'auto'}}
+      style={{ maxWidth: '1144px', marginLeft: 'auto', marginRight: 'auto' }}
     />
   );
 }
