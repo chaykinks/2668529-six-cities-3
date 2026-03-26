@@ -1,17 +1,19 @@
 import {useState} from 'react';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
-import {Offer} from '../../types/offer';
 import {CITIES} from '../../const';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch} from '../../store';
+import {State} from '../../store';
+import {changeCity} from '../../store/action';
 
-type MainPageProps = {
-  offers: Offer[];
-};
-
-function MainPage({offers}: MainPageProps): JSX.Element {
+function MainPage(): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<number | null>(null);
-  const isEmpty = offers.length === 0;
-  const currentCity = 'Amsterdam';
+  const dispatch = useDispatch<AppDispatch>();
+  const currentCity = useSelector((state: State) => state.city);
+  const offers = useSelector((state: State) => state.offers);
+  const filteredOffers = offers.filter((offer) => offer.city.name === currentCity);
+  const isEmpty = filteredOffers.length === 0;
 
   return (
     <main className={`page__main page__main--index ${isEmpty ? 'page__main--index-empty' : ''}`}>
@@ -26,7 +28,11 @@ function MainPage({offers}: MainPageProps): JSX.Element {
                   className={`locations__item-link tabs__item ${
                     city === currentCity ? 'tabs__item--active' : ''
                   }`}
-                  href="#todo"
+                  href="#"
+                  onClick={(evt) => {
+                    evt.preventDefault();
+                    dispatch(changeCity(city));
+                  }}
                 >
                   <span>{city}</span>
                 </a>
@@ -48,7 +54,7 @@ function MainPage({offers}: MainPageProps): JSX.Element {
                 <div className="cities__status-wrapper tabs__content">
                   <b className="cities__status">No places to stay available</b>
                   <p className="cities__status-description">
-                    We could not find any property available at the moment in Dusseldorf
+                    We could not find any property available at the moment in {currentCity}
                   </p>
                 </div>
               </section>
@@ -59,7 +65,7 @@ function MainPage({offers}: MainPageProps): JSX.Element {
             <>
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+                <b className="places__found">{filteredOffers.length} places to stay in {currentCity}</b>
 
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
@@ -87,7 +93,7 @@ function MainPage({offers}: MainPageProps): JSX.Element {
 
                 <div className="cities__places-list places__list tabs__content">
                   <OffersList
-                    offers={offers}
+                    offers={filteredOffers}
                     cardClassName="cities"
                     handleHover={setActiveOfferId}
                   />
@@ -96,7 +102,7 @@ function MainPage({offers}: MainPageProps): JSX.Element {
 
               <div className="cities__right-section">
                 <Map
-                  offers={offers}
+                  offers={filteredOffers}
                   activeOfferId={activeOfferId}
                   mapClassName="cities__map map"
                 />

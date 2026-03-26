@@ -8,11 +8,11 @@ import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout.tsx';
 import ScrollToTop from '../../components/scroll-to-top/scroll-to-top';
 import {AuthorizationStatus, AppRoute} from '../../const';
-import { offers } from '../../mocks/offers';
-import { AppDispatch } from '../../store';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { fillOffers } from '../../store/action';
+import {offers} from '../../mocks/offers';
+import {AppDispatch} from '../../store';
+import {useDispatch} from 'react-redux';
+import {useEffect} from 'react';
+import {fillOffers} from '../../store/action';
 
 type AppProps = {
   authorizationStatus: AuthorizationStatus;
@@ -32,7 +32,7 @@ function App({authorizationStatus}: AppProps): JSX.Element {
         >
           <Route
             index
-            element={<MainPage offers={offers} />}
+            element={<MainPage/>}
           />
           <Route
             path={AppRoute.Login}
