@@ -8,14 +8,19 @@ import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout.tsx';
 import ScrollToTop from '../../components/scroll-to-top/scroll-to-top';
 import {AuthorizationStatus, AppRoute} from '../../const';
-import {Offer} from '../../types/offer';
+import { offers } from '../../mocks/offers';
+import { AppDispatch } from '../../store';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { fillOffers } from '../../store/action';
 
 type AppProps = {
-  offers: Offer[];
   authorizationStatus: AuthorizationStatus;
 };
 
-function App({offers, authorizationStatus}: AppProps): JSX.Element {
+function App({authorizationStatus}: AppProps): JSX.Element {
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {dispatch(fillOffers(offers))}, [dispatch]);
 
   return (
     <BrowserRouter>
