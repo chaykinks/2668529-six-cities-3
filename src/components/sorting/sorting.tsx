@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {SORT_OPTIONS, SortType} from '../../const';
 
 type SortingProps = {
@@ -8,6 +8,23 @@ type SortingProps = {
 
 function Sorting({ currentSort, onSortChange }: SortingProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleClick = (evt: MouseEvent) => {
+      if (
+        evt.target instanceof Element &&
+        !evt.target.closest('.places__sorting')
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, []);
 
   return (
     <form className="places__sorting" action="#" method="get">
