@@ -21,4 +21,19 @@ function sortOffers(offers: Offer[], sortType: SortType): Offer[] {
   }
 }
 
-export { getOffersByCity, sortOffers };
+function getFavoriteOffers(offers: Offer[]): Offer[] {
+  return offers.filter((offer) => offer.isFavorite);
+}
+
+function groupFavoriteOffersByCity(favouriteOffers: Offer[]): Record<string, Offer[]> {
+  return favouriteOffers.reduce<Record<string, Offer[]>>((acc, offer) => {
+    const cityName = offer.city.name;
+    if (!acc[cityName]) {
+      acc[cityName] = [];
+    }
+    acc[cityName].push(offer);
+    return acc;
+  }, {});
+}
+
+export {getOffersByCity, sortOffers, getFavoriteOffers, groupFavoriteOffersByCity};
