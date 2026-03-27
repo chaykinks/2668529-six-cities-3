@@ -77,6 +77,7 @@ function MainPage(): JSX.Element {
 
               <div className="cities__right-section">
                 <Map
+                  city={filteredOffers[0]?.city}
                   offers={sortedOffers}
                   activeOfferId={activeOfferId}
                   mapClassName="cities__map map"
