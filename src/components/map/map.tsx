@@ -14,6 +14,7 @@ type MapProps = {
       zoom: number;
     };
   };
+  isScrollZoom?: boolean;
 };
 
 const defaultIcon = new Icon({
@@ -28,7 +29,7 @@ const activeIcon = new Icon({
   iconAnchor: [14, 40],
 });
 
-function Map({ offers, activeOfferId, mapClassName, city }: MapProps): JSX.Element {
+function Map({ offers, activeOfferId, mapClassName, city, isScrollZoom }: MapProps): JSX.Element {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<leaflet.Map | null>(null);
   const markersLayer = useRef<leaflet.LayerGroup | null>(null);
@@ -45,6 +46,12 @@ function Map({ offers, activeOfferId, mapClassName, city }: MapProps): JSX.Eleme
         attribution: '&copy; OpenStreetMap contributors',
       })
       .addTo(map);
+
+    if (isScrollZoom) {
+      map.scrollWheelZoom.enable();
+    } else {
+      map.scrollWheelZoom.disable();
+    }
 
     mapInstance.current = map;
     markersLayer.current = leaflet.layerGroup().addTo(map);

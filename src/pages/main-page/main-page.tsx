@@ -25,6 +25,7 @@ function MainPage(): JSX.Element {
   const filteredOffers = getOffersByCity(offers, currentCity);
   const sortedOffers = sortOffers(filteredOffers, currentSort);
   const isEmpty = sortedOffers.length === 0;
+  const placesToStayText = sortedOffers.length === 1 ? 'place' : 'places';
 
   return (
     <main className={`page__main page__main--index ${isEmpty ? 'page__main--index-empty' : ''}`}>
@@ -59,7 +60,7 @@ function MainPage(): JSX.Element {
             <>
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{sortedOffers.length} places to stay in {currentCity}</b>
+                <b className="places__found">{sortedOffers.length} {placesToStayText} to stay in {currentCity}</b>
 
                 <Sorting
                   currentSort={currentSort}
@@ -81,6 +82,7 @@ function MainPage(): JSX.Element {
                   offers={sortedOffers}
                   activeOfferId={activeOfferId}
                   mapClassName="cities__map map"
+                  isScrollZoom
                 />
               </div>
             </>

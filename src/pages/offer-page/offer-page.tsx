@@ -153,23 +153,28 @@ function OfferPage({offers, authorizationStatus}: OfferPageProps): JSX.Element {
         </div>
 
         <Map
+          city={currentOffer.city}
           offers={mapOffers}
           activeOfferId={currentOffer.id}
           mapClassName="offer__map map"
+          isScrollZoom={false}
         />
       </section>
 
-      <div className="container">
-        <section className="near-places places">
-          <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <div className="near-places__list places__list">
-            <OffersList
-              offers={nearbyOffers}
-              cardClassName="near-places"
-            />
-          </div>
-        </section>
-      </div>
+      {nearbyOffers.length > 0 && (
+        <div className="container">
+          <section className="near-places places">
+            <h2 className="near-places__title">Other places in the neighbourhood</h2>
+
+            <div className="near-places__list places__list">
+              <OffersList
+                offers={nearbyOffers}
+                cardClassName="near-places"
+              />
+            </div>
+          </section>
+        </div>
+      )}
     </main>
   );
 }
