@@ -1,5 +1,5 @@
 import {useParams} from 'react-router-dom';
-import {Offer} from '../../types/offer';
+import {FullOffer} from '../../types/offer';
 import NotFoundPage from '../not-found-page/not-found-page';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
@@ -8,7 +8,7 @@ import {reviews} from '../../mocks/reviews';
 import {AuthorizationStatus} from '../../const';
 
 type OfferPageProps = {
-  offers: Offer[];
+  offers: FullOffer[];
   authorizationStatus: AuthorizationStatus;
 };
 

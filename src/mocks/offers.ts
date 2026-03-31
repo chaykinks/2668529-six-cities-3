@@ -1,6 +1,6 @@
-import {Offer} from '../types/offer';
+import { FullOffer } from '../types/offer';
 
-const offers: Offer[] = [
+const offers: FullOffer[] = [
   {
     id: 1,
     title: 'Beautiful & luxurious apartment at great location',

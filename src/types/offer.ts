@@ -1,10 +1,9 @@
-type Offer = {
+type BaseOffer = {
   id: number;
   title: string;
   type: string;
   price: number;
   previewImage: string;
-  images: string[];
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;
@@ -16,14 +15,6 @@ type Offer = {
       zoom: number;
     };
   };
-  host: {
-    name: string;
-    avatarUrl: string;
-    isPro: boolean;
-  };
-  goods: string[];
-  bedrooms: number;
-  maxAdults: number;
   location: {
     latitude: number;
     longitude: number;
@@ -31,4 +22,18 @@ type Offer = {
   };
 };
 
-export type {Offer};
+type Offer = BaseOffer;
+
+type FullOffer = BaseOffer & {
+  images: string[];
+  goods: string[];
+  host: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
+  bedrooms: number;
+  maxAdults: number;
+};
+
+export type { Offer, FullOffer };
