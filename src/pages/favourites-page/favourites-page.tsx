@@ -1,13 +1,16 @@
 import OffersList from '../../components/offers-list/offers-list';
 import {Offer} from '../../types/offer';
+import {getFavoriteOffers, groupFavoriteOffersByCity} from '../../utils/offers-utils';
 
 type FavoritesPageProps = {
   offers: Offer[];
 };
 
 function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+  const favoriteOffers = getFavoriteOffers(offers);
   const isEmpty = favoriteOffers.length === 0;
+  const favoriteOffersByCity = groupFavoriteOffersByCity(favoriteOffers);
+  const groupedFavoriteOffers = Object.entries(favoriteOffersByCity);
 
   return (
     <main
@@ -32,19 +35,21 @@ function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
               <h1 className="favorites__title">Saved listing</h1>
 
               <ul className="favorites__list">
-                <li className="favorites__locations-items">
-                  <div className="favorites__locations locations locations--current">
-                    <div className="locations__item">
-                      <a className="locations__item-link" href="#todo">
-                        <span>Amsterdam</span>
-                      </a>
+                {groupedFavoriteOffers.map(([cityName, cityOffers]) => (
+                  <li className="favorites__locations-items" key={cityName}>
+                    <div className="favorites__locations locations locations--current">
+                      <div className="locations__item">
+                        <a className="locations__item-link" href="#todo">
+                          <span>{cityName}</span>
+                        </a>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="favorites__places">
-                    <OffersList offers={favoriteOffers} cardClassName="favorites" />
-                  </div>
-                </li>
+                    <div className="favorites__places">
+                      <OffersList offers={cityOffers} cardClassName="favorites" />
+                    </div>
+                  </li>
+                ))}
               </ul>
             </>
           )}

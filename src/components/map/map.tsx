@@ -7,6 +7,14 @@ type MapProps = {
   offers: Offer[];
   activeOfferId: number | null;
   mapClassName: string;
+  city: {
+    location: {
+      latitude: number;
+      longitude: number;
+      zoom: number;
+    };
+  };
+  isScrollZoom?: boolean;
 };
 
 const defaultIcon = new Icon({
@@ -21,7 +29,7 @@ const activeIcon = new Icon({
   iconAnchor: [14, 40],
 });
 
-function Map({ offers, activeOfferId, mapClassName }: MapProps): JSX.Element {
+function Map({ offers, activeOfferId, mapClassName, city, isScrollZoom }: MapProps): JSX.Element {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<leaflet.Map | null>(null);
   const markersLayer = useRef<leaflet.LayerGroup | null>(null);
@@ -44,17 +52,27 @@ function Map({ offers, activeOfferId, mapClassName }: MapProps): JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (!mapInstance.current || offers.length === 0) {
+    if (!mapInstance.current || !city) {
       return;
     }
 
-    const firstOffer = offers[0];
-
     mapInstance.current.setView(
-      [firstOffer.location.latitude, firstOffer.location.longitude],
-      firstOffer.location.zoom
+      [city.location.latitude, city.location.longitude],
+      city.location.zoom
     );
-  }, [offers]);
+  }, [city]);
+
+  useEffect(() => {
+    if (!mapInstance.current) {
+      return;
+    }
+
+    if (isScrollZoom) {
+      mapInstance.current.scrollWheelZoom.enable();
+    } else {
+      mapInstance.current.scrollWheelZoom.disable();
+    }
+  }, [isScrollZoom]);
 
   useEffect(() => {
     if (!markersLayer.current) {
