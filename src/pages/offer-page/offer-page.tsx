@@ -1,20 +1,36 @@
+import {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {useParams} from 'react-router-dom';
-import {FullOffer} from '../../types/offer';
+import {State, AppDispatch} from '../../store';
 import NotFoundPage from '../not-found-page/not-found-page';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import {reviews} from '../../mocks/reviews';
 import {AuthorizationStatus} from '../../const';
+import {fetchCurrentOfferAction} from '../../store/api-actions';
+import Spinner from '../../components/spinner/spinner';
 
 type OfferPageProps = {
-  offers: FullOffer[];
   authorizationStatus: AuthorizationStatus;
 };
 
-function OfferPage({offers, authorizationStatus}: OfferPageProps): JSX.Element {
+function OfferPage({authorizationStatus}: OfferPageProps): JSX.Element {
   const {id} = useParams();
-  const currentOffer = offers.find((item) => item.id === Number(id));
+  const dispatch = useDispatch<AppDispatch>();
+  const offers = useSelector((state: State) => state.offers);
+  const currentOffer = useSelector((state: State) => state.currentOffer);
+  const isCurrentOfferLoading = useSelector((state: State) => state.isCurrentOfferLoading);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchCurrentOfferAction(id));
+    }
+  }, [dispatch, id]);
+
+  if (isCurrentOfferLoading) {
+    return <Spinner />;
+  }
 
   if (!currentOffer) {
     return <NotFoundPage />;
