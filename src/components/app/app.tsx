@@ -8,11 +8,10 @@ import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout.tsx';
 import ScrollToTop from '../../components/scroll-to-top/scroll-to-top';
 import {AuthorizationStatus, AppRoute} from '../../const';
-import {offers} from '../../mocks/offers';
 import {AppDispatch} from '../../store';
 import {useDispatch} from 'react-redux';
 import {useEffect} from 'react';
-import {fillOffers} from '../../store/action';
+import { fetchOffersAction } from '../../store/api-actions';
 
 type AppProps = {
   authorizationStatus: AuthorizationStatus;
@@ -21,7 +20,7 @@ type AppProps = {
 function App({authorizationStatus}: AppProps): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    dispatch(fillOffers(offers));
+    dispatch(fetchOffersAction());
   }, [dispatch]);
 
   return (
