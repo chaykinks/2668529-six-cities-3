@@ -11,7 +11,7 @@ import {AuthorizationStatus, AppRoute} from '../../const';
 import {AppDispatch} from '../../store';
 import {useDispatch} from 'react-redux';
 import {useEffect} from 'react';
-import {fetchOffersAction} from '../../store/api-actions';
+import {fetchOffersAction, checkAuthAction} from '../../store/api-actions';
 
 type AppProps = {
   authorizationStatus: AuthorizationStatus;
@@ -20,6 +20,7 @@ type AppProps = {
 function App({authorizationStatus}: AppProps): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
+    dispatch(checkAuthAction());
     dispatch(fetchOffersAction());
   }, [dispatch]);
 
