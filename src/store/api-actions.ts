@@ -1,13 +1,25 @@
 import {AxiosInstance} from 'axios';
 import {AppDispatch, State} from './index';
-import {fillOffers, setOffersLoadingStatus, fillCurrentOffer, setCurrentOfferLoadingStatus} from './action';
+import {fillOffers, setOffersLoadingStatus, fillCurrentOffer,
+  setCurrentOfferLoadingStatus, requireAuthorization} from './action';
 import {Offer, FullOffer} from '../types/offer';
+import {AuthorizationStatus} from '../const';
 
 type ThunkActionResult = (
   dispatch: AppDispatch,
   getState: () => State,
   api: AxiosInstance
 ) => Promise<void>;
+
+export const checkAuthAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    try {
+      await api.get('/login');
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    } catch {
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    }
+  };
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
