@@ -1,14 +1,13 @@
 import {Outlet, useLocation} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import Header from '../header/header';
 import Footer from '../footer/footer';
-import {AuthorizationStatus, AppRoute} from '../../const';
+import {AppRoute} from '../../const';
+import {State} from '../../store';
 
-type LayoutProps = {
-  authorizationStatus: AuthorizationStatus;
-};
-
-function Layout({authorizationStatus}: LayoutProps): JSX.Element {
+function Layout(): JSX.Element {
   const {pathname} = useLocation();
+  const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
 
   const isLoginPage = pathname === AppRoute.Login.toString();
   const isFavoritesPage = pathname === AppRoute.Favorites.toString();

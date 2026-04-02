@@ -7,17 +7,13 @@ import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import {reviews} from '../../mocks/reviews';
-import {AuthorizationStatus} from '../../const';
 import {fetchCurrentOfferAction} from '../../store/api-actions';
 import Spinner from '../../components/spinner/spinner';
 
-type OfferPageProps = {
-  authorizationStatus: AuthorizationStatus;
-};
-
-function OfferPage({authorizationStatus}: OfferPageProps): JSX.Element {
+function OfferPage(): JSX.Element {
   const {id} = useParams();
   const dispatch = useDispatch<AppDispatch>();
+  const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
   const offers = useSelector((state: State) => state.offers);
   const currentOffer = useSelector((state: State) => state.currentOffer);
   const isCurrentOfferLoading = useSelector((state: State) => state.isCurrentOfferLoading);
