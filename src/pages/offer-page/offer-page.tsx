@@ -146,13 +146,7 @@ function OfferPage(): JSX.Element {
 
               <div className="offer__description">
                 <p className="offer__text">
-                  A quiet cozy and picturesque that hides behind a river by the
-                  unique lightness of Amsterdam.
-                </p>
-
-                <p className="offer__text">
-                  An independent house strategically located between Rembrand
-                  Square and National Opera.
+                  {currentOffer.description}
                 </p>
               </div>
             </div>
