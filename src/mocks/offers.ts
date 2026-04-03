@@ -45,6 +45,7 @@ const offers: FullOffer[] = [
     ],
     bedrooms: 3,
     maxAdults: 2,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     location: {
       latitude: 52.3909553943508,
       longitude: 4.85309666406198,
@@ -93,6 +94,7 @@ const offers: FullOffer[] = [
     ],
     bedrooms: 1,
     maxAdults: 1,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     location: {
       latitude: 52.3609553943508,
       longitude: 4.85309666406198,
@@ -140,6 +142,7 @@ const offers: FullOffer[] = [
     ],
     bedrooms: 2,
     maxAdults: 1,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     location: {
       latitude: 52.3909553943508,
       longitude: 4.929309666406198,
@@ -187,6 +190,7 @@ const offers: FullOffer[] = [
     ],
     bedrooms: 3,
     maxAdults: 4,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     location: {
       latitude: 52.3809553943508,
       longitude: 4.939309666406198,
@@ -223,6 +227,7 @@ const offers: FullOffer[] = [
     goods: ['Wi-Fi', 'Kitchen', 'Heating'],
     bedrooms: 1,
     maxAdults: 2,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Paris.',
     location: {
       latitude: 48.8584,
       longitude: 2.2945,
@@ -258,6 +263,7 @@ const offers: FullOffer[] = [
     goods: ['Wi-Fi', 'Air conditioning', 'Washing machine'],
     bedrooms: 2,
     maxAdults: 4,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Paris.',
     location: {
       latitude: 48.8579,
       longitude: 2.3354,
@@ -293,6 +299,7 @@ const offers: FullOffer[] = [
     goods: ['Wi-Fi', 'Kitchen', 'Dishwasher', 'Parking'],
     bedrooms: 2,
     maxAdults: 3,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Paris.',
     location: {
       latitude: 48.8606,
       longitude: 2.3376,
@@ -328,6 +335,7 @@ const offers: FullOffer[] = [
     goods: ['Heating', 'Coffee machine', 'Parking'],
     bedrooms: 1,
     maxAdults: 1,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Paris.',
     location: {
       latitude: 48.8867,
       longitude: 2.3431,
@@ -363,6 +371,7 @@ const offers: FullOffer[] = [
     goods: ['Wi-Fi', 'Air conditioning', 'Parking'],
     bedrooms: 3,
     maxAdults: 5,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Paris.',
     location: {
       latitude: 48.8530,
       longitude: 2.3499,
@@ -398,6 +407,7 @@ const offers: FullOffer[] = [
     goods: ['Wi-Fi', 'Kitchen', 'Parking', 'Coffee machine',],
     bedrooms: 2,
     maxAdults: 3,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Brussels.',
     location: {
       latitude: 50.8466,
       longitude: 4.3528,
@@ -433,6 +443,7 @@ const offers: FullOffer[] = [
     goods: ['Wi-Fi', 'Kitchen', 'Heating'],
     bedrooms: 2,
     maxAdults: 3,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Hamburg.',
     location: {
       latitude: 53.5500,
       longitude: 9.9990,
@@ -468,6 +479,7 @@ const offers: FullOffer[] = [
     goods: ['Wi-Fi', 'Coffee machine'],
     bedrooms: 1,
     maxAdults: 2,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Hamburg.',
     location: {
       latitude: 53.5525,
       longitude: 9.9875,

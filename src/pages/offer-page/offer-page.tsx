@@ -45,7 +45,7 @@ function OfferPage(): JSX.Element {
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
-            {currentOffer.images.map((image) => (
+            {currentOffer.images.slice(0, 6).map((image) => (
               <div className="offer__image-wrapper" key={image}>
                 <img className="offer__image" src={image} alt={currentOffer.title}/>
               </div>
