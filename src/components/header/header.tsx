@@ -1,12 +1,14 @@
 import {Link} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import {AppRoute, AuthorizationStatus} from '../../const';
+import {State} from '../../store';
 
 type HeaderProps = {
-  authorizationStatus: AuthorizationStatus;
   isLoginPage?: boolean;
 };
 
-function Header({authorizationStatus, isLoginPage = false}: HeaderProps): JSX.Element {
+function Header({isLoginPage = false}: HeaderProps): JSX.Element {
+  const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   return (

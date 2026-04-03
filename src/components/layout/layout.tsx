@@ -1,13 +1,10 @@
 import {Outlet, useLocation} from 'react-router-dom';
-import {useSelector} from 'react-redux';
 import Header from '../header/header';
 import Footer from '../footer/footer';
 import {AppRoute} from '../../const';
-import {State} from '../../store';
 
 function Layout(): JSX.Element {
   const {pathname} = useLocation();
-  const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
 
   const isLoginPage = pathname === AppRoute.Login.toString();
   const isFavoritesPage = pathname === AppRoute.Favorites.toString();
@@ -25,10 +22,7 @@ function Layout(): JSX.Element {
 
   return (
     <div className={pageClassName}>
-      <Header
-        authorizationStatus={authorizationStatus}
-        isLoginPage={isLoginPage}
-      />
+      <Header isLoginPage={isLoginPage} />
       <Outlet />
       {isFavoritesPage && <Footer />}
     </div>
