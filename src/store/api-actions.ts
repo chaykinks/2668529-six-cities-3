@@ -4,7 +4,7 @@ import {fillOffers, setOffersLoadingStatus, fillCurrentOffer,
   setCurrentOfferLoadingStatus, requireAuthorization} from './action';
 import {Offer, FullOffer} from '../types/offer';
 import {AuthorizationStatus} from '../const';
-import {saveToken} from '../token.ts';
+import {saveToken, dropToken} from '../token.ts';
 
 type ThunkActionResult = (
   dispatch: AppDispatch,
@@ -41,6 +41,13 @@ export const loginAction = ({ email, password }: AuthData): ThunkActionResult =>
 
     saveToken(data.token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+  };
+
+export const logoutAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    await api.delete('/logout');
+    dropToken();
+    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   };
 
 export const fetchOffersAction = (): ThunkActionResult =>
