@@ -111,10 +111,9 @@ export const fetchReviewsAction = (id: string): ThunkActionResult =>
 export const sendReviewAction = ({offerId, comment, rating}: ReviewData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     dispatch(setReviewSendingStatus(true));
-
     try {
-      const { data } = await api.post<Review[]>(`/comments/${offerId}`, {comment, rating});
-      dispatch(fillReviews(data));
+      await api.post(`/comments/${offerId}`, {comment, rating});
+      await dispatch(fetchReviewsAction(offerId));
     } finally {
       dispatch(setReviewSendingStatus(false));
     }
