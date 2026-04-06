@@ -1,5 +1,5 @@
 type BaseOffer = {
-  id: number;
+  id: string;
   title: string;
   type: string;
   price: number;

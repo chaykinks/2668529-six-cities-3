@@ -8,9 +8,10 @@ import {sortReviews} from '../../utils/reviews-utils';
 
 type ReviewsListProps = {
   reviews: Review[];
+  offerId: string;
 };
 
-function ReviewsList({reviews}: ReviewsListProps): JSX.Element {
+function ReviewsList({reviews, offerId}: ReviewsListProps): JSX.Element {
   const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   const sortedReviews = sortReviews(reviews);
@@ -30,7 +31,7 @@ function ReviewsList({reviews}: ReviewsListProps): JSX.Element {
         ))}
       </ul>
 
-      {isAuth && <ReviewForm />}
+      {isAuth && <ReviewForm offerId={offerId} />}
     </section>
   );
 }
