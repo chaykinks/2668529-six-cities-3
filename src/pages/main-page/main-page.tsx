@@ -4,19 +4,19 @@ import OffersList from '../../components/offers-list/offers-list';
 import CitiesList from '../../components/cities-list/cities-list';
 import Map from '../../components/map/map';
 import Sorting from '../../components/sorting/sorting';
-import {CITIES, SortType} from '../../const';
-import {State, AppDispatch} from '../../store';
-import {changeCity} from '../../store/action';
-import {getOffersByCity, sortOffers} from '../../utils/offers-utils';
 import Spinner from '../../components/spinner/spinner';
+import {CITIES, SortType} from '../../const';
+import {RootState, AppDispatch} from '../../store';
+import {changeCity} from '../../store/offers-slice/offers-slice';
+import {getOffersByCity, sortOffers} from '../../utils/offers-utils';
 
 function MainPage(): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
   const [currentSort, setCurrentSort] = useState<SortType>(SortType.Popular);
   const dispatch = useDispatch<AppDispatch>();
-  const currentCity = useSelector((state: State) => state.city);
-  const offers = useSelector((state: State) => state.offers);
-  const isOffersLoading = useSelector((state: State) => state.isOffersLoading);
+  const currentCity = useSelector((state: RootState) => state.OFFERS.currentCity);
+  const offers = useSelector((state: RootState) => state.OFFERS.offers);
+  const isOffersLoading = useSelector((state: RootState) => state.OFFERS.isOffersLoading);
 
   if (isOffersLoading) {
     return <Spinner />;

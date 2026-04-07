@@ -1,27 +1,28 @@
 import {useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
 import {useParams} from 'react-router-dom';
-import {State, AppDispatch} from '../../store';
+import {useDispatch, useSelector} from 'react-redux';
 import NotFoundPage from '../not-found-page/not-found-page';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import ReviewsList from '../../components/reviews-list/reviews-list';
-import {fetchCurrentOfferAction, fetchNearbyOffersAction, fetchReviewsAction} from '../../store/api-actions';
 import Spinner from '../../components/spinner/spinner';
+import {fetchCurrentOffer, fetchNearbyOffers, fetchReviews} from '../../store/offer-slice/offer-slice';
+import {RootState, AppDispatch} from '../../store';
 
 function OfferPage(): JSX.Element {
-  const {id} = useParams();
+  const {id} = useParams<{id: string}>();
   const dispatch = useDispatch<AppDispatch>();
-  const currentOffer = useSelector((state: State) => state.currentOffer);
-  const isCurrentOfferLoading = useSelector((state: State) => state.isCurrentOfferLoading);
-  const nearbyOffers = useSelector((state: State) => state.nearbyOffers);
-  const reviews = useSelector((state: State) => state.reviews);
+  const currentOffer = useSelector((state: RootState) => state.OFFER.currentOffer);
+  const nearbyOffers = useSelector((state: RootState) => state.OFFER.nearbyOffers);
+  const reviews = useSelector((state: RootState) => state.OFFER.reviews);
+  const isCurrentOfferLoading = useSelector((state: RootState) => state.OFFER.isCurrentOfferLoading);
+  const hasError = useSelector((state: RootState) => state.OFFER.hasError);
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchCurrentOfferAction(id));
-      dispatch(fetchNearbyOffersAction(id));
-      dispatch(fetchReviewsAction(id));
+      dispatch(fetchCurrentOffer(id));
+      dispatch(fetchNearbyOffers(id));
+      dispatch(fetchReviews(id));
     }
   }, [dispatch, id]);
 
@@ -29,7 +30,7 @@ function OfferPage(): JSX.Element {
     return <Spinner />;
   }
 
-  if (!currentOffer) {
+  if (hasError || !currentOffer) {
     return <NotFoundPage />;
   }
 

@@ -1,11 +1,11 @@
 import {useDispatch} from 'react-redux';
 import {AppDispatch} from '../../store';
-import {logoutAction} from '../../store/api-actions';
+import {logout} from '../../store/user-slice/user-slice';
 import {useNavigate} from 'react-router-dom';
 import {Link} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {AppRoute, AuthorizationStatus} from '../../const';
-import {State} from '../../store';
+import {RootState} from '../../store';
 
 type HeaderProps = {
   isLoginPage?: boolean;
@@ -14,11 +14,11 @@ type HeaderProps = {
 function Header({isLoginPage = false}: HeaderProps): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
+  const authorizationStatus = useSelector((state: RootState) => state.USER.authorizationStatus);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   const handleSignOut = async () => {
-    await dispatch(logoutAction());
+    await dispatch(logout());
     navigate(AppRoute.Login);
   };
 
