@@ -13,6 +13,7 @@ type OfferState = {
   nearbyRequestStatus: RequestStatus;
   reviewsRequestStatus: RequestStatus;
   reviewSendingRequestStatus: RequestStatus;
+  reviewSendingRequestError: string | null;
 };
 
 type ReviewData = {
@@ -29,6 +30,7 @@ const initialState: OfferState = {
   nearbyRequestStatus: RequestStatus.Idle,
   reviewsRequestStatus: RequestStatus.Idle,
   reviewSendingRequestStatus: RequestStatus.Idle,
+  reviewSendingRequestError: null,
 };
 
 export const fetchCurrentOffer = createAsyncThunk<
@@ -74,7 +76,7 @@ export const sendReview = createAsyncThunk<
 >(
   'offer/sendReview',
   async ({offerId, comment, rating}, {extra: api, dispatch}) => {
-    await api.post(`/comments/${offerId}`, {comment, rating,});
+    await api.post(`/comments/${offerId}`, {comment, rating});
     await dispatch(fetchReviews(offerId));
   }
 );
@@ -118,12 +120,15 @@ const offerSlice = createSlice({
       })
       .addCase(sendReview.pending, (state) => {
         state.reviewSendingRequestStatus = RequestStatus.Loading;
+        state.reviewSendingRequestError = null;
       })
       .addCase(sendReview.fulfilled, (state) => {
         state.reviewSendingRequestStatus = RequestStatus.Success;
+        state.reviewSendingRequestError = null;
       })
       .addCase(sendReview.rejected, (state) => {
         state.reviewSendingRequestStatus = RequestStatus.Failed;
+        state.reviewSendingRequestError = 'Failed to send review. Please try again.';
       });
   }
 });

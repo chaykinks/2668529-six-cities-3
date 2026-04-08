@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../store';
-import {useNavigate, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {logout} from '../../store/user-slice/user-slice';
 
@@ -10,7 +10,6 @@ type HeaderProps = {
 
 function Header({isLoginPage = false}: HeaderProps): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const authorizationStatus = useSelector((state: RootState) => state.USER.authorizationStatus);
   const user = useSelector((state: RootState) => state.USER.user);
   const offers = useSelector((state: RootState) => state.OFFERS.offers);
@@ -19,7 +18,6 @@ function Header({isLoginPage = false}: HeaderProps): JSX.Element {
 
   const handleSignOut = async () => {
     await dispatch(logout()).unwrap();
-    navigate(AppRoute.Login);
   };
 
   return (

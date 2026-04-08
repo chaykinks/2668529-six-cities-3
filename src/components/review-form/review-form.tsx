@@ -13,9 +13,8 @@ type ReviewFormProps = {
 
 function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const reviewSendingRequestStatus = useSelector(
-    (state: RootState) => state.OFFER.reviewSendingRequestStatus
-  );
+  const reviewSendingRequestStatus = useSelector((state: RootState) => state.OFFER.reviewSendingRequestStatus);
+  const reviewSendingRequestError = useSelector((state: RootState) => state.OFFER.reviewSendingRequestError);
   const isReviewSending = reviewSendingRequestStatus === RequestStatus.Loading;
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
@@ -39,11 +38,14 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
     if (isSubmitDisabled) {
       return;
     }
-    await dispatch(sendReview({offerId, comment: review, rating})).unwrap();
-    setReview('');
-    setRating(0);
+    try {
+      await dispatch(sendReview({offerId, comment: review, rating})).unwrap();
+      setReview('');
+      setRating(0);
+    } catch (error) {
+      void error;
+    }
   };
-
 
   return (
     <form
@@ -159,6 +161,11 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
           {' '}
           <b className="reviews__text-amount">{MIN_REVIEW_LENGTH} characters</b>.
         </p>
+        {reviewSendingRequestError && (
+          <p className="reviews__error" style={{color: 'red', marginBottom: '10px'}}>
+            {reviewSendingRequestError}
+          </p>
+        )}
         <button
           className="reviews__submit form__submit button"
           type="submit"
