@@ -1,14 +1,13 @@
-import { FormEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { AppDispatch } from '../../store';
-import { loginAction } from '../../store/api-actions';
-import { AppRoute } from '../../const';
+import {FormEvent, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import {AppDispatch} from '../../store';
+import {login} from '../../store/user-slice/user-slice';
+import {AppRoute} from '../../const';
 
 function LoginPage(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -18,7 +17,7 @@ function LoginPage(): JSX.Element {
     if (!isPasswordValid) {
       return;
     }
-    await dispatch(loginAction({ email, password }));
+    await dispatch(login({email, password})).unwrap();
     navigate(AppRoute.Root);
   };
 

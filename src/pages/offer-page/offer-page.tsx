@@ -1,44 +1,41 @@
 import {useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
 import {useParams} from 'react-router-dom';
-import {State, AppDispatch} from '../../store';
+import {useDispatch, useSelector} from 'react-redux';
 import NotFoundPage from '../not-found-page/not-found-page';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import ReviewsList from '../../components/reviews-list/reviews-list';
-import {reviews} from '../../mocks/reviews';
-import {fetchCurrentOfferAction} from '../../store/api-actions';
 import Spinner from '../../components/spinner/spinner';
+import {fetchCurrentOffer, fetchNearbyOffers, fetchReviews} from '../../store/offer-slice/offer-slice';
+import {RootState, AppDispatch} from '../../store';
+import {RequestStatus} from '../../const';
 
 function OfferPage(): JSX.Element {
-  const {id} = useParams();
+  const {id} = useParams<{id: string}>();
   const dispatch = useDispatch<AppDispatch>();
-  const offers = useSelector((state: State) => state.offers);
-  const currentOffer = useSelector((state: State) => state.currentOffer);
-  const isCurrentOfferLoading = useSelector((state: State) => state.isCurrentOfferLoading);
+  const currentOffer = useSelector((state: RootState) => state.OFFER.currentOffer);
+  const nearbyOffers = useSelector((state: RootState) => state.OFFER.nearbyOffers);
+  const reviews = useSelector((state: RootState) => state.OFFER.reviews);
+  const offerRequestStatus = useSelector((state: RootState) => state.OFFER.offerRequestStatus);
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchCurrentOfferAction(id));
+      dispatch(fetchCurrentOffer(id));
+      dispatch(fetchNearbyOffers(id));
+      dispatch(fetchReviews(id));
     }
   }, [dispatch, id]);
 
-  if (isCurrentOfferLoading) {
+  if (offerRequestStatus === RequestStatus.Loading) {
     return <Spinner />;
   }
 
-  if (!currentOffer) {
+  if (!currentOffer || offerRequestStatus === RequestStatus.Failed) {
     return <NotFoundPage />;
   }
 
-  const nearbyOffers = offers
-    .filter((offer) =>
-      offer.city.name === currentOffer.city.name &&
-      offer.id !== currentOffer.id
-    )
-    .slice(0, 3);
-
-  const mapOffers = [currentOffer, ...nearbyOffers];
+  const firstThreeNearbyOffers = nearbyOffers.slice(0, 3);
+  const mapOffers = [currentOffer, ...firstThreeNearbyOffers];
 
   return (
     <main className="page__main page__main--offer">
@@ -150,7 +147,10 @@ function OfferPage(): JSX.Element {
               </div>
             </div>
 
-            <ReviewsList reviews={reviews} />
+            <ReviewsList
+              reviews={reviews}
+              offerId={currentOffer.id}
+            />
           </div>
         </div>
 
@@ -163,14 +163,14 @@ function OfferPage(): JSX.Element {
         />
       </section>
 
-      {nearbyOffers.length > 0 && (
+      {firstThreeNearbyOffers.length > 0 && (
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
 
             <div className="near-places__list places__list">
               <OffersList
-                offers={nearbyOffers}
+                offers={firstThreeNearbyOffers}
                 cardClassName="near-places"
               />
             </div>

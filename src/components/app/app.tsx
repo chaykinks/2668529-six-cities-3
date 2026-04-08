@@ -11,13 +11,14 @@ import {AppRoute} from '../../const';
 import {AppDispatch} from '../../store';
 import {useDispatch} from 'react-redux';
 import {useEffect} from 'react';
-import {fetchOffersAction, checkAuthAction} from '../../store/api-actions';
+import {fetchOffers} from '../../store/offers-slice/offers-slice';
+import {checkAuth} from '../../store/user-slice/user-slice';
 
 function App(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    dispatch(checkAuthAction());
-    dispatch(fetchOffersAction());
+    dispatch(checkAuth());
+    dispatch(fetchOffers());
   }, [dispatch]);
 
   return (

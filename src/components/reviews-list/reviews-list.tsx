@@ -3,15 +3,16 @@ import ReviewItem from '../review-item/review-item';
 import ReviewForm from '../../components/review-form/review-form';
 import {Review} from '../../types/review.ts';
 import {AuthorizationStatus} from '../../const';
-import {State} from '../../store';
+import {RootState} from '../../store';
 import {sortReviews} from '../../utils/reviews-utils';
 
 type ReviewsListProps = {
   reviews: Review[];
+  offerId: string;
 };
 
-function ReviewsList({reviews}: ReviewsListProps): JSX.Element {
-  const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
+function ReviewsList({reviews, offerId}: ReviewsListProps): JSX.Element {
+  const authorizationStatus = useSelector((state: RootState) => state.USER.authorizationStatus);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   const sortedReviews = sortReviews(reviews);
 
@@ -30,7 +31,7 @@ function ReviewsList({reviews}: ReviewsListProps): JSX.Element {
         ))}
       </ul>
 
-      {isAuth && <ReviewForm />}
+      {isAuth && <ReviewForm offerId={offerId} />}
     </section>
   );
 }

@@ -1,13 +1,29 @@
 import {ChangeEvent, FormEvent, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '../../store';
+import {sendReview} from '../../store/offer-slice/offer-slice';
+import {RequestStatus} from '../../const';
 
 const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 300;
 
-function ReviewForm(): JSX.Element {
+type ReviewFormProps = {
+  offerId: string;
+};
+
+function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
+  const dispatch = useDispatch<AppDispatch>();
+  const reviewSendingRequestStatus = useSelector((state: RootState) => state.OFFER.reviewSendingRequestStatus);
+  const reviewSendingRequestError = useSelector((state: RootState) => state.OFFER.reviewSendingRequestError);
+  const isReviewSending = reviewSendingRequestStatus === RequestStatus.Loading;
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
 
-  const isSubmitDisabled = rating === 0 || review.length < MIN_REVIEW_LENGTH || review.length > MAX_REVIEW_LENGTH;
+  const isSubmitDisabled =
+    rating === 0 ||
+    review.length < MIN_REVIEW_LENGTH ||
+    review.length > MAX_REVIEW_LENGTH ||
+    isReviewSending;
 
   const handleReviewChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setReview(evt.target.value);
@@ -17,14 +33,30 @@ function ReviewForm(): JSX.Element {
     setRating(Number(evt.target.value));
   };
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    setReview('');
-    setRating(0);
+    if (isSubmitDisabled) {
+      return;
+    }
+    try {
+      await dispatch(sendReview({offerId, comment: review, rating})).unwrap();
+      setReview('');
+      setRating(0);
+    } catch (error) {
+      void error;
+    }
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={(evt) => {
+        evt.preventDefault();
+        void handleSubmit(evt);
+      }}
+    >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -38,6 +70,7 @@ function ReviewForm(): JSX.Element {
           type="radio"
           checked={rating === 5}
           onChange={handleRatingChange}
+          disabled={isReviewSending}
         />
         <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
           <svg className="form__star-image" width="37" height="33">
@@ -53,6 +86,7 @@ function ReviewForm(): JSX.Element {
           type="radio"
           checked={rating === 4}
           onChange={handleRatingChange}
+          disabled={isReviewSending}
         />
         <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
           <svg className="form__star-image" width="37" height="33">
@@ -68,6 +102,7 @@ function ReviewForm(): JSX.Element {
           type="radio"
           checked={rating === 3}
           onChange={handleRatingChange}
+          disabled={isReviewSending}
         />
         <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
           <svg className="form__star-image" width="37" height="33">
@@ -83,6 +118,7 @@ function ReviewForm(): JSX.Element {
           type="radio"
           checked={rating === 2}
           onChange={handleRatingChange}
+          disabled={isReviewSending}
         />
         <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
           <svg className="form__star-image" width="37" height="33">
@@ -98,6 +134,7 @@ function ReviewForm(): JSX.Element {
           type="radio"
           checked={rating === 1}
           onChange={handleRatingChange}
+          disabled={isReviewSending}
         />
         <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
           <svg className="form__star-image" width="37" height="33">
@@ -113,6 +150,7 @@ function ReviewForm(): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={review}
         onChange={handleReviewChange}
+        disabled={isReviewSending}
       />
 
       <div className="reviews__button-wrapper">
@@ -123,12 +161,17 @@ function ReviewForm(): JSX.Element {
           {' '}
           <b className="reviews__text-amount">{MIN_REVIEW_LENGTH} characters</b>.
         </p>
+        {reviewSendingRequestError && (
+          <p className="reviews__error" style={{color: 'red', marginBottom: '10px'}}>
+            {reviewSendingRequestError}
+          </p>
+        )}
         <button
           className="reviews__submit form__submit button"
           type="submit"
           disabled={isSubmitDisabled}
         >
-          Submit
+          {isReviewSending ? 'Sending...' : 'Submit'}
         </button>
       </div>
     </form>

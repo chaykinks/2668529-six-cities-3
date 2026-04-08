@@ -1,10 +1,10 @@
 import {useSelector} from 'react-redux';
 import OffersList from '../../components/offers-list/offers-list';
-import {State} from '../../store';
+import {RootState} from '../../store';
 import {getFavoriteOffers, groupFavoriteOffersByCity} from '../../utils/offers-utils';
 
 function FavoritesPage(): JSX.Element {
-  const offers = useSelector((state: State) => state.offers);
+  const offers = useSelector((state: RootState) => state.OFFERS.offers);
 
   const favoriteOffers = getFavoriteOffers(offers);
   const isEmpty = favoriteOffers.length === 0;

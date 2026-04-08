@@ -1,11 +1,8 @@
-import {useDispatch} from 'react-redux';
-import {AppDispatch} from '../../store';
-import {logoutAction} from '../../store/api-actions';
-import {useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '../../store';
 import {Link} from 'react-router-dom';
-import {useSelector} from 'react-redux';
 import {AppRoute, AuthorizationStatus} from '../../const';
-import {State} from '../../store';
+import {logout} from '../../store/user-slice/user-slice';
 
 type HeaderProps = {
   isLoginPage?: boolean;
@@ -13,13 +10,14 @@ type HeaderProps = {
 
 function Header({isLoginPage = false}: HeaderProps): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-  const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
+  const authorizationStatus = useSelector((state: RootState) => state.USER.authorizationStatus);
+  const user = useSelector((state: RootState) => state.USER.user);
+  const offers = useSelector((state: RootState) => state.OFFERS.offers);
+  const favoriteOffersCount = offers.filter((offer) => offer.isFavorite).length;
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   const handleSignOut = async () => {
-    await dispatch(logoutAction());
-    navigate(AppRoute.Login);
+    await dispatch(logout()).unwrap();
   };
 
   return (
@@ -42,15 +40,23 @@ function Header({isLoginPage = false}: HeaderProps): JSX.Element {
             <nav className="header__nav">
               <ul className="header__nav-list">
 
-                {isAuth ? (
+                {isAuth && user ? (
                   <>
                     <li className="header__nav-item user">
                       <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
-                        <div className="header__avatar-wrapper user__avatar-wrapper"/>
+                        <div className="header__avatar-wrapper user__avatar-wrapper">
+                          <img
+                            className="user__avatar"
+                            src={user.avatarUrl}
+                            alt={user.name}
+                            width="54"
+                            height="54"
+                          />
+                        </div>
                         <span className="header__user-name user__name">
-                          Oliver.conner@gmail.com
+                          {user.email}
                         </span>
-                        <span className="header__favorite-count">3</span>
+                        <span className="header__favorite-count">{favoriteOffersCount}</span>
                       </Link>
                     </li>
 
