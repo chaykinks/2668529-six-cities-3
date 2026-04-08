@@ -3,9 +3,17 @@ import {AxiosInstance} from 'axios';
 import {AuthorizationStatus, RequestStatus} from '../../const';
 import {saveToken, dropToken} from '../../services/token';
 
+type UserData = {
+  email: string;
+  avatarUrl: string;
+  isPro: boolean;
+  name: string;
+};
+
 type UserState = {
   authorizationStatus: AuthorizationStatus;
   authRequestStatus: RequestStatus;
+  user: UserData | null;
 };
 
 type AuthData = {
@@ -24,21 +32,23 @@ type AuthInfo = {
 const initialState: UserState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   authRequestStatus: RequestStatus.Idle,
+  user: null,
 };
 
 export const checkAuth = createAsyncThunk<
-  void,
+  UserData,
   undefined,
   {extra: AxiosInstance}
 >(
   'user/checkAuth',
   async (_arg, {extra: api}) => {
-    await api.get('/login');
+    const {data} = await api.get<UserData>('/login');
+    return data;
   }
 );
 
 export const login = createAsyncThunk<
-  void,
+  UserData,
   AuthData,
   {extra: AxiosInstance}
 >(
@@ -46,6 +56,13 @@ export const login = createAsyncThunk<
   async ({email, password}, {extra: api}) => {
     const {data} = await api.post<AuthInfo>('/login', {email, password});
     saveToken(data.token);
+
+    return {
+      email: data.email,
+      avatarUrl: data.avatarUrl,
+      isPro: data.isPro,
+      name: data.name,
+    };
   }
 );
 
@@ -70,24 +87,28 @@ const userSlice = createSlice({
       .addCase(checkAuth.pending, (state) => {
         state.authRequestStatus = RequestStatus.Loading;
       })
-      .addCase(checkAuth.fulfilled, (state) => {
+      .addCase(checkAuth.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
         state.authRequestStatus = RequestStatus.Success;
+        state.user = action.payload;
       })
       .addCase(checkAuth.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         state.authRequestStatus = RequestStatus.Failed;
+        state.user = null;
       })
       .addCase(login.pending, (state) => {
         state.authRequestStatus = RequestStatus.Loading;
       })
-      .addCase(login.fulfilled, (state) => {
+      .addCase(login.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
         state.authRequestStatus = RequestStatus.Success;
+        state.user = action.payload;
       })
       .addCase(login.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         state.authRequestStatus = RequestStatus.Failed;
+        state.user = null;
       })
       .addCase(logout.pending, (state) => {
         state.authRequestStatus = RequestStatus.Loading;
@@ -95,6 +116,7 @@ const userSlice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         state.authRequestStatus = RequestStatus.Success;
+        state.user = null;
       })
       .addCase(logout.rejected, (state) => {
         state.authRequestStatus = RequestStatus.Failed;
