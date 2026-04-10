@@ -5,11 +5,11 @@ import CitiesList from '../../components/cities-list/cities-list';
 import Map from '../../components/map/map';
 import Sorting from '../../components/sorting/sorting';
 import Spinner from '../../components/spinner/spinner';
-import {CITIES, SortType} from '../../const';
+import MainEmpty from '../../components/main-empty/main-empty';
+import {CITIES, SortType, RequestStatus} from '../../const';
 import {RootState, AppDispatch} from '../../store';
 import {changeCity} from '../../store/offers-slice/offers-slice';
 import {getOffersByCity, sortOffers} from '../../utils/offers-utils';
-import {RequestStatus} from '../../const';
 
 function MainPage(): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
@@ -34,8 +34,24 @@ function MainPage(): JSX.Element {
   const isEmpty = sortedOffers.length === 0;
   const placesToStayText = sortedOffers.length === 1 ? 'place' : 'places';
 
+  if (isEmpty) {
+    return (
+      <main className="page__main page__main--index page__main--index-empty">
+        <h1 className="visually-hidden">Cities</h1>
+
+        <CitiesList
+          cities={CITIES}
+          currentCity={currentCity}
+          onCityClick={handleCityChange}
+        />
+
+        <MainEmpty city={currentCity} />
+      </main>
+    );
+  }
+
   return (
-    <main className={`page__main page__main--index ${isEmpty ? 'page__main--index-empty' : ''}`}>
+    <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
 
       <CitiesList
@@ -45,55 +61,36 @@ function MainPage(): JSX.Element {
       />
 
       <div className="cities">
-        <div
-          className={`cities__places-container container ${
-            isEmpty ? 'cities__places-container--empty' : ''
-          }`}
-        >
-          {isEmpty ? (
-            <>
-              <section className="cities__no-places">
-                <div className="cities__status-wrapper tabs__content">
-                  <b className="cities__status">No places to stay available</b>
-                  <p className="cities__status-description">
-                    We could not find any property available at the moment in {currentCity}
-                  </p>
-                </div>
-              </section>
+        <div className="cities__places-container container">
+          <section className="cities__places places">
+            <h2 className="visually-hidden">Places</h2>
+            <b className="places__found">
+              {sortedOffers.length} {placesToStayText} to stay in {currentCity}
+            </b>
 
-              <div className="cities__right-section" />
-            </>
-          ) : (
-            <>
-              <section className="cities__places places">
-                <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{sortedOffers.length} {placesToStayText} to stay in {currentCity}</b>
+            <Sorting
+              currentSort={currentSort}
+              onSortChange={setCurrentSort}
+            />
 
-                <Sorting
-                  currentSort={currentSort}
-                  onSortChange={setCurrentSort}
-                />
+            <div className="cities__places-list places__list tabs__content">
+              <OffersList
+                offers={sortedOffers}
+                cardClassName="cities"
+                handleHover={setActiveOfferId}
+              />
+            </div>
+          </section>
 
-                <div className="cities__places-list places__list tabs__content">
-                  <OffersList
-                    offers={sortedOffers}
-                    cardClassName="cities"
-                    handleHover={setActiveOfferId}
-                  />
-                </div>
-              </section>
-
-              <div className="cities__right-section">
-                <Map
-                  city={filteredOffers[0]?.city}
-                  offers={sortedOffers}
-                  activeOfferId={activeOfferId}
-                  mapClassName="cities__map map"
-                  isScrollZoom
-                />
-              </div>
-            </>
-          )}
+          <div className="cities__right-section">
+            <Map
+              city={filteredOffers[0].city}
+              offers={sortedOffers}
+              activeOfferId={activeOfferId}
+              mapClassName="cities__map map"
+              isScrollZoom
+            />
+          </div>
         </div>
       </div>
     </main>
