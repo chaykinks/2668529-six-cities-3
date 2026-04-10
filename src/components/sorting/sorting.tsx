@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import {SORT_OPTIONS, SortType} from '../../const';
+import {memo} from 'react';
 
 type SortingProps = {
   currentSort: SortType;
@@ -59,4 +60,4 @@ function Sorting({ currentSort, onSortChange }: SortingProps): JSX.Element {
   );
 }
 
-export default Sorting;
+export default memo(Sorting);

@@ -1,3 +1,5 @@
+import {memo} from 'react';
+
 type CitiesListProps = {
   cities: readonly string[];
   currentCity: string;
@@ -31,4 +33,4 @@ function CitiesList({ cities, currentCity, onCityClick }: CitiesListProps): JSX.
   );
 }
 
-export default CitiesList;
+export default memo(CitiesList);

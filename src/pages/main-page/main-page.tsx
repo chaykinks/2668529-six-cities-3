@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import OffersList from '../../components/offers-list/offers-list';
 import CitiesList from '../../components/cities-list/cities-list';
@@ -23,14 +23,14 @@ function MainPage(): JSX.Element {
     return <Spinner />;
   }
 
-  const handleCityChange = (city: string) => {
+  const handleCityChange = useCallback((city: string) => {
     dispatch(changeCity(city));
     setCurrentSort(SortType.Popular);
     setActiveOfferId(null);
-  };
+  }, [dispatch]);
 
-  const filteredOffers = getOffersByCity(offers, currentCity);
-  const sortedOffers = sortOffers(filteredOffers, currentSort);
+  const filteredOffers = useMemo(() => getOffersByCity(offers, currentCity), [offers, currentCity]);
+  const sortedOffers = useMemo(() => sortOffers(filteredOffers, currentSort), [filteredOffers, currentSort]);
   const isEmpty = sortedOffers.length === 0;
   const placesToStayText = sortedOffers.length === 1 ? 'place' : 'places';
 
