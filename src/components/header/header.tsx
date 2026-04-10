@@ -12,8 +12,7 @@ function Header({isLoginPage = false}: HeaderProps): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   const authorizationStatus = useSelector((state: RootState) => state.USER.authorizationStatus);
   const user = useSelector((state: RootState) => state.USER.user);
-  const offers = useSelector((state: RootState) => state.OFFERS.offers);
-  const favoriteOffersCount = offers.filter((offer) => offer.isFavorite).length;
+  const favoriteOffersCount = useSelector((state: RootState) => state.OFFERS.favorites.length);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   const handleSignOut = async () => {
