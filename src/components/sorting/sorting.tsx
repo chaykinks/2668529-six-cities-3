@@ -1,12 +1,13 @@
 import {useEffect, useState} from 'react';
 import {SORT_OPTIONS, SortType} from '../../const';
+import {memo} from 'react';
 
 type SortingProps = {
   currentSort: SortType;
   onSortChange: (sortType: SortType) => void;
 };
 
-function Sorting({ currentSort, onSortChange }: SortingProps): JSX.Element {
+const Sorting = ({currentSort, onSortChange}: SortingProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -36,7 +37,7 @@ function Sorting({ currentSort, onSortChange }: SortingProps): JSX.Element {
       >
         {currentSort}
         <svg className="places__sorting-arrow" width={7} height={4}>
-          <use xlinkHref="#icon-arrow-select" />
+          <use xlinkHref="#icon-arrow-select"/>
         </svg>
       </span>
 
@@ -57,6 +58,8 @@ function Sorting({ currentSort, onSortChange }: SortingProps): JSX.Element {
       </ul>
     </form>
   );
-}
+};
 
-export default Sorting;
+const MemoizedSorting = memo(Sorting);
+
+export default MemoizedSorting;

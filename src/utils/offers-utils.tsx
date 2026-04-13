@@ -21,10 +21,6 @@ function sortOffers(offers: Offer[], sortType: SortType): Offer[] {
   }
 }
 
-function getFavoriteOffers(offers: Offer[]): Offer[] {
-  return offers.filter((offer) => offer.isFavorite);
-}
-
 function groupFavoriteOffersByCity(favouriteOffers: Offer[]): Record<string, Offer[]> {
   return favouriteOffers.reduce<Record<string, Offer[]>>((groupedOffers, offer) => {
     const cityName = offer.city.name;
@@ -36,4 +32,4 @@ function groupFavoriteOffersByCity(favouriteOffers: Offer[]): Record<string, Off
   }, {});
 }
 
-export {getOffersByCity, sortOffers, getFavoriteOffers, groupFavoriteOffersByCity};
+export {getOffersByCity, sortOffers, groupFavoriteOffersByCity};

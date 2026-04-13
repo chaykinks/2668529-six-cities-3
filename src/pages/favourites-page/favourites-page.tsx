@@ -1,57 +1,121 @@
-import {useSelector} from 'react-redux';
-import OffersList from '../../components/offers-list/offers-list';
-import {RootState} from '../../store';
-import {getFavoriteOffers, groupFavoriteOffersByCity} from '../../utils/offers-utils';
+import {MouseEvent} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState, AppDispatch} from '../../store';
+import {groupFavoriteOffersByCity} from '../../utils/offers-utils';
+import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
+import Spinner from '../../components/spinner/spinner';
+import {AppRoute, AuthorizationStatus, RequestStatus} from '../../const';
+import {changeFavoriteStatus} from '../../store/offers-slice/offers-slice';
 
 function FavoritesPage(): JSX.Element {
-  const offers = useSelector((state: RootState) => state.OFFERS.offers);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const favoriteOffers = useSelector((state: RootState) => state.OFFERS.favorites);
+  const favoritesRequestStatus = useSelector((state: RootState) => state.OFFERS.favoritesRequestStatus);
+  const authorizationStatus = useSelector((state: RootState) => state.USER.authorizationStatus);
 
-  const favoriteOffers = getFavoriteOffers(offers);
-  const isEmpty = favoriteOffers.length === 0;
-  const favoriteOffersByCity = groupFavoriteOffersByCity(favoriteOffers);
-  const groupedFavoriteOffers = Object.entries(favoriteOffersByCity);
+  if (favoritesRequestStatus === RequestStatus.Loading) {
+    return <Spinner />;
+  }
+
+  if (favoriteOffers.length === 0) {
+    return <FavoritesEmpty />;
+  }
+
+  const groupedFavoriteOffers = groupFavoriteOffersByCity(favoriteOffers);
+  const cityNames = Object.keys(groupedFavoriteOffers);
+
+  const handleBookmarkClick = async (evt: MouseEvent<HTMLButtonElement>,
+    offerId: string | number) => {
+    evt.preventDefault();
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+      return;
+    }
+    try {
+      await dispatch(
+        changeFavoriteStatus({
+          offerId: String(offerId),
+          status: 0,
+        })
+      ).unwrap();
+    } catch (error) {
+      void error;
+    }
+  };
 
   return (
-    <main
-      className={`page__main page__main--favorites ${
-        isEmpty ? 'page__main--favorites-empty' : ''
-      }`}
-    >
+    <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
-        <section className={`favorites ${isEmpty ? 'favorites--empty' : ''}`}>
-          {isEmpty ? (
-            <>
-              <h1 className="visually-hidden">Favorites (empty)</h1>
-              <div className="favorites__status-wrapper">
-                <b className="favorites__status">Nothing yet saved.</b>
-                <p className="favorites__status-description">
-                  Save properties to narrow down search or plan your future trips.
-                </p>
-              </div>
-            </>
-          ) : (
-            <>
-              <h1 className="favorites__title">Saved listing</h1>
+        <section className="favorites">
+          <h1 className="favorites__title">Saved listing</h1>
 
-              <ul className="favorites__list">
-                {groupedFavoriteOffers.map(([cityName, cityOffers]) => (
-                  <li className="favorites__locations-items" key={cityName}>
-                    <div className="favorites__locations locations locations--current">
-                      <div className="locations__item">
-                        <a className="locations__item-link" href="#todo">
-                          <span>{cityName}</span>
+          <ul className="favorites__list">
+            {cityNames.map((cityName) => (
+              <li className="favorites__locations-items" key={cityName}>
+                <div className="favorites__locations locations locations--current">
+                  <div className="locations__item">
+                    <Link className="locations__item-link" to={AppRoute.Root}>
+                      <span>{cityName}</span>
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="favorites__places">
+                  {groupedFavoriteOffers[cityName].map((offer) => (
+                    <article className="favorites__card place-card" key={offer.id}>
+                      <div className="favorites__image-wrapper place-card__image-wrapper">
+                        <a href={`/offer/${offer.id}`}>
+                          <img
+                            className="place-card__image"
+                            src={offer.previewImage}
+                            width="150"
+                            height="110"
+                            alt={offer.title}
+                          />
                         </a>
                       </div>
-                    </div>
 
-                    <div className="favorites__places">
-                      <OffersList offers={cityOffers} cardClassName="favorites" />
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
+                      <div className="favorites__card-info place-card__info">
+                        <div className="place-card__price-wrapper">
+                          <div className="place-card__price">
+                            <b className="place-card__price-value">&euro;{offer.price}</b>
+                            <span className="place-card__price-text">&#47;&nbsp;night</span>
+                          </div>
+
+                          <button
+                            className="place-card__bookmark-button place-card__bookmark-button--active button"
+                            type="button"
+                            onClick={(evt) => {
+                              void handleBookmarkClick(evt, offer.id);
+                            }}
+                          >
+                            <svg className="place-card__bookmark-icon" width="18" height="19">
+                              <use xlinkHref="#icon-bookmark" />
+                            </svg>
+                            <span className="visually-hidden">In bookmarks</span>
+                          </button>
+                        </div>
+
+                        <div className="place-card__rating rating">
+                          <div className="place-card__stars rating__stars">
+                            <span style={{width: `${Math.round(offer.rating) * 20}%`}} />
+                            <span className="visually-hidden">Rating</span>
+                          </div>
+                        </div>
+
+                        <h2 className="place-card__name">
+                          <a href={`/offer/${offer.id}`}>{offer.title}</a>
+                        </h2>
+                        <p className="place-card__type">{offer.type}</p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ul>
         </section>
       </div>
     </main>

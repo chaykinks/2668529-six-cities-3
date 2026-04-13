@@ -11,7 +11,7 @@ import {AppRoute} from '../../const';
 import {AppDispatch} from '../../store';
 import {useDispatch} from 'react-redux';
 import {useEffect} from 'react';
-import {fetchOffers} from '../../store/offers-slice/offers-slice';
+import {fetchOffers, fetchFavorites} from '../../store/offers-slice/offers-slice';
 import {checkAuth} from '../../store/user-slice/user-slice';
 
 function App(): JSX.Element {
@@ -19,20 +19,15 @@ function App(): JSX.Element {
   useEffect(() => {
     dispatch(checkAuth());
     dispatch(fetchOffers());
+    dispatch(fetchFavorites());
   }, [dispatch]);
 
   return (
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
-        <Route
-          path={AppRoute.Root}
-          element={<Layout/>}
-        >
-          <Route
-            index
-            element={<MainPage/>}
-          />
+        <Route path={AppRoute.Root} element={<Layout/>} >
+          <Route index element={<MainPage/>} />
           <Route
             path={AppRoute.Login}
             element={(
@@ -41,12 +36,7 @@ function App(): JSX.Element {
               </PrivateRoute>
             )}
           />
-          <Route
-            path={AppRoute.Offer}
-            element={(
-              <OfferPage/>
-            )}
-          />
+          <Route path={AppRoute.Offer} element={<OfferPage/>} />
           <Route
             path={AppRoute.Favorites}
             element={(
@@ -55,10 +45,7 @@ function App(): JSX.Element {
               </PrivateRoute>
             )}
           />
-          <Route
-            path={AppRoute.NotFound}
-            element={<NotFoundPage/>}
-          />
+          <Route path={AppRoute.NotFound} element={<NotFoundPage/>} />
         </Route>
       </Routes>
     </BrowserRouter>
