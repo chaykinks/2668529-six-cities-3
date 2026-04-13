@@ -1,16 +1,49 @@
-import {useSelector} from 'react-redux';
-import {RootState} from '../../store';
+import {MouseEvent} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState, AppDispatch} from '../../store';
 import {groupFavoriteOffersByCity} from '../../utils/offers-utils';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
+import Spinner from '../../components/spinner/spinner';
+import {AppRoute, AuthorizationStatus, RequestStatus} from '../../const';
+import {changeFavoriteStatus} from '../../store/offers-slice/offers-slice';
 
 function FavoritesPage(): JSX.Element {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const favoriteOffers = useSelector((state: RootState) => state.OFFERS.favorites);
-  const groupedFavoriteOffers = groupFavoriteOffersByCity(favoriteOffers);
-  const cityNames = Object.keys(groupedFavoriteOffers);
+  const favoritesRequestStatus = useSelector((state: RootState) => state.OFFERS.favoritesRequestStatus);
+  const authorizationStatus = useSelector((state: RootState) => state.USER.authorizationStatus);
+
+  if (favoritesRequestStatus === RequestStatus.Loading) {
+    return <Spinner />;
+  }
 
   if (favoriteOffers.length === 0) {
     return <FavoritesEmpty />;
   }
+
+  const groupedFavoriteOffers = groupFavoriteOffersByCity(favoriteOffers);
+  const cityNames = Object.keys(groupedFavoriteOffers);
+
+  const handleBookmarkClick = async (evt: MouseEvent<HTMLButtonElement>,
+    offerId: string | number) => {
+    evt.preventDefault();
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+      return;
+    }
+    try {
+      await dispatch(
+        changeFavoriteStatus({
+          offerId: String(offerId),
+          status: 0,
+        })
+      ).unwrap();
+    } catch (error) {
+      void error;
+    }
+  };
 
   return (
     <main className="page__main page__main--favorites">
@@ -23,9 +56,9 @@ function FavoritesPage(): JSX.Element {
               <li className="favorites__locations-items" key={cityName}>
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
-                    <a className="locations__item-link" href="#">
+                    <Link className="locations__item-link" to={AppRoute.Root}>
                       <span>{cityName}</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
@@ -54,6 +87,9 @@ function FavoritesPage(): JSX.Element {
                           <button
                             className="place-card__bookmark-button place-card__bookmark-button--active button"
                             type="button"
+                            onClick={(evt) => {
+                              void handleBookmarkClick(evt, offer.id);
+                            }}
                           >
                             <svg className="place-card__bookmark-icon" width="18" height="19">
                               <use xlinkHref="#icon-bookmark" />
