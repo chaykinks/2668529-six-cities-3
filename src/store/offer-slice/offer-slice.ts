@@ -4,6 +4,7 @@ import {Review} from '../../types/review';
 import {AxiosInstance} from 'axios';
 import {RootState} from '../index';
 import {RequestStatus} from '../../const';
+import {changeFavoriteStatus} from '../offers-slice/offers-slice';
 
 type OfferState = {
   currentOffer: FullOffer | null;
@@ -129,6 +130,17 @@ const offerSlice = createSlice({
       .addCase(sendReview.rejected, (state) => {
         state.reviewSendingRequestStatus = RequestStatus.Failed;
         state.reviewSendingRequestError = 'Failed to send review. Please try again.';
+      })
+      .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        if (state.currentOffer && state.currentOffer.id === action.payload.id) {
+          state.currentOffer = {
+            ...state.currentOffer,
+            isFavorite: action.payload.isFavorite,
+          };
+        }
+        state.nearbyOffers = state.nearbyOffers.map((offer) =>
+          offer.id === action.payload.id ? action.payload : offer
+        );
       });
   }
 });
