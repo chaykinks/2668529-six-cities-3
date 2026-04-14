@@ -6,7 +6,7 @@ import {groupFavoriteOffersByCity} from '../../utils/offers-utils';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import Spinner from '../../components/spinner/spinner';
 import {AppRoute, AuthorizationStatus, RequestStatus} from '../../const';
-import {changeFavoriteStatus} from '../../store/offers-slice/offers-slice';
+import {changeFavoriteStatus, changeCity} from '../../store/offers-slice/offers-slice';
 import {capitalize} from '../../utils/offers-utils';
 
 function FavoritesPage(): JSX.Element {
@@ -46,6 +46,10 @@ function FavoritesPage(): JSX.Element {
     }
   };
 
+  const handleCityClick = (cityName: string) => {
+    dispatch(changeCity(cityName));
+  };
+
   return (
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
@@ -57,7 +61,13 @@ function FavoritesPage(): JSX.Element {
               <li className="favorites__locations-items" key={cityName}>
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
-                    <Link className="locations__item-link" to={AppRoute.Root}>
+                    <Link
+                      className="locations__item-link"
+                      to={AppRoute.Root}
+                      onClick={() => {
+                        handleCityClick(cityName);
+                      }}
+                    >
                       <span>{cityName}</span>
                     </Link>
                   </div>
