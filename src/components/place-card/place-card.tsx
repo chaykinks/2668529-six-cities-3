@@ -5,6 +5,7 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import {Offer} from '../../types/offer';
 import {AppDispatch, RootState} from '../../store';
 import {changeFavoriteStatus} from '../../store/offers-slice/offers-slice';
+import {capitalize} from '../../utils/offers-utils';
 
 type PlaceCardProps = {
   offer: Offer;
@@ -108,7 +109,7 @@ function PlaceCard({offer, cardClassName, handleHover}: PlaceCardProps): JSX.Ele
           <Link to={offerPath}>{title}</Link>
         </h2>
 
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{capitalize(type)}</p>
       </div>
     </article>
   );

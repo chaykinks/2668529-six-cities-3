@@ -10,6 +10,7 @@ import {fetchCurrentOffer, fetchNearbyOffers, fetchReviews} from '../../store/of
 import {changeFavoriteStatus} from '../../store/offers-slice/offers-slice';
 import {RootState, AppDispatch} from '../../store';
 import {RequestStatus, AuthorizationStatus, AppRoute} from '../../const';
+import {capitalize} from '../../utils/offers-utils';
 
 function OfferPage(): JSX.Element {
   const {id} = useParams<{id: string}>();
@@ -112,7 +113,7 @@ function OfferPage(): JSX.Element {
 
             <ul className="offer__features">
               <li className="offer__feature offer__feature--entire">
-                {currentOffer.type}
+                {capitalize(currentOffer.type)}
               </li>
 
               <li className="offer__feature offer__feature--bedrooms">

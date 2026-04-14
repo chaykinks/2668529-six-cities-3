@@ -32,4 +32,7 @@ function groupFavoriteOffersByCity(favouriteOffers: Offer[]): Record<string, Off
   }, {});
 }
 
-export {getOffersByCity, sortOffers, groupFavoriteOffersByCity};
+const capitalize = (value: string): string =>
+  value.charAt(0).toUpperCase() + value.slice(1);
+
+export {getOffersByCity, sortOffers, groupFavoriteOffersByCity, capitalize};
