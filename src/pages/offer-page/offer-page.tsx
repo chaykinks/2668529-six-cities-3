@@ -1,4 +1,4 @@
-import {useEffect, MouseEvent} from 'react';
+import {useEffect, MouseEvent, useMemo} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import NotFoundPage from '../not-found-page/not-found-page';
@@ -21,6 +21,8 @@ function OfferPage(): JSX.Element {
   const reviews = useSelector((state: RootState) => state.OFFER.reviews);
   const offerRequestStatus = useSelector((state: RootState) => state.OFFER.offerRequestStatus);
   const authorizationStatus = useSelector((state: RootState) => state.USER.authorizationStatus);
+  const firstThreeNearbyOffers = useMemo(() => nearbyOffers.slice(0, 3), [nearbyOffers]);
+  const mapOffers = useMemo(() => [currentOffer, ...firstThreeNearbyOffers], [currentOffer, firstThreeNearbyOffers]);
 
   useEffect(() => {
     if (id) {
@@ -37,9 +39,6 @@ function OfferPage(): JSX.Element {
   if (!currentOffer || offerRequestStatus === RequestStatus.Failed) {
     return <NotFoundPage />;
   }
-
-  const firstThreeNearbyOffers = nearbyOffers.slice(0, 3);
-  const mapOffers = [currentOffer, ...firstThreeNearbyOffers];
 
   const handleBookmarkClick = async (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
