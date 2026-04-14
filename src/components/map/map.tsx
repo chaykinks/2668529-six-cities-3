@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef, memo} from 'react';
 import leaflet, {Icon, Marker} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {Offer} from '../../types/offer';
@@ -102,4 +102,6 @@ function Map({ offers, activeOfferId, mapClassName, city, isScrollZoom }: MapPro
   );
 }
 
-export default Map;
+const MemoizedMap = memo(Map);
+
+export default MemoizedMap;

@@ -1,6 +1,5 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, memo} from 'react';
 import {SORT_OPTIONS, SortType} from '../../const';
-import {memo} from 'react';
 
 type SortingProps = {
   currentSort: SortType;

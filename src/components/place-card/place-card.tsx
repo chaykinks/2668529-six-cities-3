@@ -1,4 +1,4 @@
-import {MouseEvent} from 'react';
+import {MouseEvent, memo} from 'react';
 import {Link, generatePath, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRoute, AuthorizationStatus} from '../../const';
@@ -115,4 +115,6 @@ function PlaceCard({offer, cardClassName, handleHover}: PlaceCardProps): JSX.Ele
   );
 }
 
-export default PlaceCard;
+const MemoizedPlaceCard = memo(PlaceCard);
+
+export default MemoizedPlaceCard;

@@ -1,4 +1,5 @@
 import {Review} from '../../types/review.ts';
+import {memo} from 'react';
 
 type ReviewItemProps = {
   review: Review;
@@ -40,4 +41,6 @@ function ReviewItem({review}: ReviewItemProps): JSX.Element {
   );
 }
 
-export default ReviewItem;
+const MemoizedReviewItem = memo(ReviewItem);
+
+export default MemoizedReviewItem;
