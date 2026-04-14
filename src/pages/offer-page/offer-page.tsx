@@ -11,6 +11,7 @@ import {changeFavoriteStatus} from '../../store/offers-slice/offers-slice';
 import {RootState, AppDispatch} from '../../store';
 import {RequestStatus, AuthorizationStatus, AppRoute} from '../../const';
 import {capitalize} from '../../utils/offers-utils';
+import {Offer} from '../../types/offer';
 
 function OfferPage(): JSX.Element {
   const {id} = useParams<{id: string}>();
@@ -22,7 +23,10 @@ function OfferPage(): JSX.Element {
   const offerRequestStatus = useSelector((state: RootState) => state.OFFER.offerRequestStatus);
   const authorizationStatus = useSelector((state: RootState) => state.USER.authorizationStatus);
   const firstThreeNearbyOffers = useMemo(() => nearbyOffers.slice(0, 3), [nearbyOffers]);
-  const mapOffers = useMemo(() => [currentOffer, ...firstThreeNearbyOffers], [currentOffer, firstThreeNearbyOffers]);
+  const mapOffers = useMemo<Offer[]>(
+    () => (currentOffer ? [currentOffer, ...firstThreeNearbyOffers] : []),
+    [currentOffer, firstThreeNearbyOffers]
+  );
 
   useEffect(() => {
     if (id) {
