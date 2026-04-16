@@ -6,7 +6,8 @@ import {groupFavoriteOffersByCity} from '../../utils/offers-utils';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import Spinner from '../../components/spinner/spinner';
 import {AppRoute, AuthorizationStatus, RequestStatus} from '../../const';
-import {changeFavoriteStatus} from '../../store/offers-slice/offers-slice';
+import {changeFavoriteStatus, changeCity} from '../../store/offers-slice/offers-slice';
+import {capitalize} from '../../utils/offers-utils';
 
 function FavoritesPage(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
@@ -45,6 +46,10 @@ function FavoritesPage(): JSX.Element {
     }
   };
 
+  const handleCityClick = (cityName: string) => {
+    dispatch(changeCity(cityName));
+  };
+
   return (
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
@@ -56,7 +61,13 @@ function FavoritesPage(): JSX.Element {
               <li className="favorites__locations-items" key={cityName}>
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
-                    <Link className="locations__item-link" to={AppRoute.Root}>
+                    <Link
+                      className="locations__item-link"
+                      to={AppRoute.Root}
+                      onClick={() => {
+                        handleCityClick(cityName);
+                      }}
+                    >
                       <span>{cityName}</span>
                     </Link>
                   </div>
@@ -65,8 +76,14 @@ function FavoritesPage(): JSX.Element {
                 <div className="favorites__places">
                   {groupedFavoriteOffers[cityName].map((offer) => (
                     <article className="favorites__card place-card" key={offer.id}>
+                      {offer.isPremium && (
+                        <div className="place-card__mark">
+                          <span>Premium</span>
+                        </div>
+                      )}
+
                       <div className="favorites__image-wrapper place-card__image-wrapper">
-                        <a href={`/offer/${offer.id}`}>
+                        <Link to={`/offer/${offer.id}`}>
                           <img
                             className="place-card__image"
                             src={offer.previewImage}
@@ -74,7 +91,7 @@ function FavoritesPage(): JSX.Element {
                             height="110"
                             alt={offer.title}
                           />
-                        </a>
+                        </Link>
                       </div>
 
                       <div className="favorites__card-info place-card__info">
@@ -106,9 +123,9 @@ function FavoritesPage(): JSX.Element {
                         </div>
 
                         <h2 className="place-card__name">
-                          <a href={`/offer/${offer.id}`}>{offer.title}</a>
+                          <Link to={`/offer/${offer.id}`}>{offer.title}</Link>
                         </h2>
-                        <p className="place-card__type">{offer.type}</p>
+                        <p className="place-card__type">{capitalize(offer.type)}</p>
                       </div>
                     </article>
                   ))}

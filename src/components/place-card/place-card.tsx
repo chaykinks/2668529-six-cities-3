@@ -1,10 +1,11 @@
-import {MouseEvent} from 'react';
+import {MouseEvent, memo} from 'react';
 import {Link, generatePath, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {Offer} from '../../types/offer';
 import {AppDispatch, RootState} from '../../store';
 import {changeFavoriteStatus} from '../../store/offers-slice/offers-slice';
+import {capitalize} from '../../utils/offers-utils';
 
 type PlaceCardProps = {
   offer: Offer;
@@ -17,6 +18,7 @@ function PlaceCard({offer, cardClassName, handleHover}: PlaceCardProps): JSX.Ele
   const navigate = useNavigate();
   const authorizationStatus = useSelector((state: RootState) => state.USER.authorizationStatus);
   const {id, title, type, price, previewImage, isPremium, isFavorite, rating} = offer;
+  const isBookmarkActive = authorizationStatus === AuthorizationStatus.Auth && isFavorite;
   const offerPath = generatePath(AppRoute.Offer, {id: id});
   const imageWidth = cardClassName === 'favorites' ? 150 : 260;
   const imageHeight = cardClassName === 'favorites' ? 110 : 200;
@@ -81,7 +83,7 @@ function PlaceCard({offer, cardClassName, handleHover}: PlaceCardProps): JSX.Ele
 
           <button
             className={`place-card__bookmark-button button ${
-              isFavorite ? 'place-card__bookmark-button--active' : ''
+              isBookmarkActive ? 'place-card__bookmark-button--active' : ''
             }`}
             type="button"
             onClick={(evt) => {
@@ -92,7 +94,7 @@ function PlaceCard({offer, cardClassName, handleHover}: PlaceCardProps): JSX.Ele
               <use xlinkHref="#icon-bookmark" />
             </svg>
             <span className="visually-hidden">
-              {isFavorite ? 'In bookmarks' : 'To bookmarks'}
+              {isBookmarkActive ? 'In bookmarks' : 'To bookmarks'}
             </span>
           </button>
         </div>
@@ -108,10 +110,12 @@ function PlaceCard({offer, cardClassName, handleHover}: PlaceCardProps): JSX.Ele
           <Link to={offerPath}>{title}</Link>
         </h2>
 
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{capitalize(type)}</p>
       </div>
     </article>
   );
 }
 
-export default PlaceCard;
+const MemoizedPlaceCard = memo(PlaceCard);
+
+export default MemoizedPlaceCard;

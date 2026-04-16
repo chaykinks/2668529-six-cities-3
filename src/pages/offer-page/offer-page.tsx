@@ -1,4 +1,4 @@
-import {useEffect, MouseEvent} from 'react';
+import {useEffect, MouseEvent, useMemo} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import NotFoundPage from '../not-found-page/not-found-page';
@@ -10,6 +10,8 @@ import {fetchCurrentOffer, fetchNearbyOffers, fetchReviews} from '../../store/of
 import {changeFavoriteStatus} from '../../store/offers-slice/offers-slice';
 import {RootState, AppDispatch} from '../../store';
 import {RequestStatus, AuthorizationStatus, AppRoute} from '../../const';
+import {capitalize} from '../../utils/offers-utils';
+import {Offer} from '../../types/offer';
 
 function OfferPage(): JSX.Element {
   const {id} = useParams<{id: string}>();
@@ -20,6 +22,12 @@ function OfferPage(): JSX.Element {
   const reviews = useSelector((state: RootState) => state.OFFER.reviews);
   const offerRequestStatus = useSelector((state: RootState) => state.OFFER.offerRequestStatus);
   const authorizationStatus = useSelector((state: RootState) => state.USER.authorizationStatus);
+  const isBookmarkActive = authorizationStatus === AuthorizationStatus.Auth && !!currentOffer?.isFavorite;
+  const firstThreeNearbyOffers = useMemo(() => nearbyOffers.slice(0, 3), [nearbyOffers]);
+  const mapOffers = useMemo<Offer[]>(
+    () => (currentOffer ? [currentOffer, ...firstThreeNearbyOffers] : []),
+    [currentOffer, firstThreeNearbyOffers]
+  );
 
   useEffect(() => {
     if (id) {
@@ -36,9 +44,6 @@ function OfferPage(): JSX.Element {
   if (!currentOffer || offerRequestStatus === RequestStatus.Failed) {
     return <NotFoundPage />;
   }
-
-  const firstThreeNearbyOffers = nearbyOffers.slice(0, 3);
-  const mapOffers = [currentOffer, ...firstThreeNearbyOffers];
 
   const handleBookmarkClick = async (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
@@ -85,7 +90,7 @@ function OfferPage(): JSX.Element {
 
               <button
                 className={`offer__bookmark-button button ${
-                  currentOffer.isFavorite ? 'offer__bookmark-button--active' : ''
+                  isBookmarkActive ? 'offer__bookmark-button--active' : ''
                 }`}
                 type="button"
                 onClick={(evt) => {
@@ -96,7 +101,7 @@ function OfferPage(): JSX.Element {
                   <use xlinkHref="#icon-bookmark"/>
                 </svg>
                 <span className="visually-hidden">
-                  {currentOffer.isFavorite ? 'In bookmarks' : 'To bookmarks'}
+                  {isBookmarkActive ? 'In bookmarks' : 'To bookmarks'}
                 </span>
               </button>
             </div>
@@ -112,7 +117,7 @@ function OfferPage(): JSX.Element {
 
             <ul className="offer__features">
               <li className="offer__feature offer__feature--entire">
-                {currentOffer.type}
+                {capitalize(currentOffer.type)}
               </li>
 
               <li className="offer__feature offer__feature--bedrooms">
