@@ -71,14 +71,17 @@ export const fetchReviews = createAsyncThunk<
 );
 
 export const sendReview = createAsyncThunk<
-  void,
+  Review,
   ReviewData,
   {extra: AxiosInstance; state: RootState}
 >(
   'offer/sendReview',
-  async ({offerId, comment, rating}, {extra: api, dispatch}) => {
-    await api.post(`/comments/${offerId}`, {comment, rating});
-    await dispatch(fetchReviews(offerId));
+  async ({offerId, comment, rating}, {extra: api}) => {
+    const {data} = await api.post<Review>(`/comments/${offerId}`, {
+      comment,
+      rating,
+    });
+    return data;
   }
 );
 
@@ -123,9 +126,10 @@ const offerSlice = createSlice({
         state.reviewSendingRequestStatus = RequestStatus.Loading;
         state.reviewSendingRequestError = null;
       })
-      .addCase(sendReview.fulfilled, (state) => {
+      .addCase(sendReview.fulfilled, (state, action) => {
         state.reviewSendingRequestStatus = RequestStatus.Success;
         state.reviewSendingRequestError = null;
+        state.reviews = [action.payload, ...state.reviews];
       })
       .addCase(sendReview.rejected, (state) => {
         state.reviewSendingRequestStatus = RequestStatus.Failed;
