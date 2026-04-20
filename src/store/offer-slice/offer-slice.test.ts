@@ -273,8 +273,8 @@ describe('offer-slice async thunks tests', () => {
   });
 
   it('should dispatch fetchCurrentOffer and store current offer', async () => {
-    const fakeOffer = makeMockFullOffer({id: '5'});
-    mockAPI.onGet('/offers/5').reply(200, fakeOffer);
+    const mockOffer = makeMockFullOffer({id: '5'});
+    mockAPI.onGet('/offers/5').reply(200, mockOffer);
 
     const store = configureStore({
       reducer: {OFFER: offerReducer},
@@ -287,13 +287,13 @@ describe('offer-slice async thunks tests', () => {
     await store.dispatch(fetchCurrentOffer('5'));
 
     const state = store.getState().OFFER;
-    expect(state.currentOffer).toEqual(fakeOffer);
+    expect(state.currentOffer).toEqual(mockOffer);
     expect(state.offerRequestStatus).toBe(RequestStatus.Success);
   });
 
   it('should dispatch fetchNearbyOffers and store nearby offers', async () => {
-    const fakeNearbyOffers = [makeMockOffer({id: '2'}), makeMockOffer({id: '3'})];
-    mockAPI.onGet('/offers/5/nearby').reply(200, fakeNearbyOffers);
+    const mockNearbyOffers = [makeMockOffer({id: '2'}), makeMockOffer({id: '3'})];
+    mockAPI.onGet('/offers/5/nearby').reply(200, mockNearbyOffers);
 
     const store = configureStore({
       reducer: {OFFER: offerReducer},
@@ -306,13 +306,13 @@ describe('offer-slice async thunks tests', () => {
     await store.dispatch(fetchNearbyOffers('5'));
 
     const state = store.getState().OFFER;
-    expect(state.nearbyOffers).toEqual(fakeNearbyOffers);
+    expect(state.nearbyOffers).toEqual(mockNearbyOffers);
     expect(state.nearbyRequestStatus).toBe(RequestStatus.Success);
   });
 
   it('should dispatch fetchReviews and store reviews', async () => {
-    const fakeReviews = [makeMockReview({id: '7'}), makeMockReview({id: '8'})];
-    mockAPI.onGet('/comments/5').reply(200, fakeReviews);
+    const mockReviews = [makeMockReview({id: '7'}), makeMockReview({id: '8'})];
+    mockAPI.onGet('/comments/5').reply(200, mockReviews);
 
     const store = configureStore({
       reducer: {OFFER: offerReducer},
@@ -325,7 +325,7 @@ describe('offer-slice async thunks tests', () => {
     await store.dispatch(fetchReviews('5'));
 
     const state = store.getState().OFFER;
-    expect(state.reviews).toEqual(fakeReviews);
+    expect(state.reviews).toEqual(mockReviews);
     expect(state.reviewsRequestStatus).toBe(RequestStatus.Success);
   });
 
