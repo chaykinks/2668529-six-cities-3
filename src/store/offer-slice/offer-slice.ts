@@ -2,7 +2,6 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {FullOffer, Offer} from '../../types/offer';
 import {Review} from '../../types/review';
 import {AxiosInstance} from 'axios';
-import {RootState} from '../index';
 import {RequestStatus} from '../../const';
 import {changeFavoriteStatus} from '../offers-slice/offers-slice';
 
@@ -37,7 +36,7 @@ const initialState: OfferState = {
 export const fetchCurrentOffer = createAsyncThunk<
   FullOffer,
   string,
-  {extra: AxiosInstance; state: RootState}
+  {extra: AxiosInstance}
 >(
   'offer/fetchCurrentOffer',
   async (id, {extra: api}) => {
@@ -73,7 +72,7 @@ export const fetchReviews = createAsyncThunk<
 export const sendReview = createAsyncThunk<
   Review,
   ReviewData,
-  {extra: AxiosInstance; state: RootState}
+  {extra: AxiosInstance}
 >(
   'offer/sendReview',
   async ({offerId, comment, rating}, {extra: api}) => {
