@@ -2,12 +2,11 @@ import {MouseEvent} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../store';
-import {groupFavoriteOffersByCity} from '../../utils/offers-utils';
+import {groupFavoriteOffersByCity, capitalize} from '../../utils/offers-utils';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import Spinner from '../../components/spinner/spinner';
 import {AppRoute, AuthorizationStatus, RequestStatus} from '../../const';
 import {changeFavoriteStatus, changeCity} from '../../store/offers-slice/offers-slice';
-import {capitalize} from '../../utils/offers-utils';
 import {getFavorites, getFavoritesRequestStatus, getFavoritesError, getFavoriteChangeError} from '../../store/offers-slice/selectors';
 import {getAuthorizationStatus} from '../../store/user-slice/selectors';
 
