@@ -2,7 +2,6 @@ import {RootState} from '../index';
 
 export const getOffers = (state: RootState) => state.OFFERS.offers;
 export const getFavorites = (state: RootState) => state.OFFERS.favorites;
-export const getFavoriteOffersCount = (state: RootState) => state.OFFERS.favorites.length;
 export const getCurrentCity = (state: RootState) => state.OFFERS.currentCity;
 
 export const getOffersRequestStatus = (state: RootState) =>
